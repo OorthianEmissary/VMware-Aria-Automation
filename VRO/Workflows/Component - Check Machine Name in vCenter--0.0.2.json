@@ -1,0 +1,461 @@
+{
+  "display-name": "Component - Check Machine Name in vCenter",
+  "description": "",
+  "position": {
+    "y": 120,
+    "x": 50
+  },
+  "input": {
+    "param": [
+      {
+        "name": "in_vmName",
+        "type": "string"
+      },
+      {
+        "name": "in_skip",
+        "type": "string"
+      }
+    ]
+  },
+  "output": {
+    "param": [
+      {
+        "name": "out_status",
+        "type": "string"
+      }
+    ]
+  },
+  "attrib": [
+    {
+      "type": "VRA:Host",
+      "name": "var_vRAHost"
+    },
+    {
+      "value": {
+        "string": {
+          "value": ""
+        }
+      },
+      "type": "string",
+      "name": "var_response1"
+    },
+    {
+      "value": {
+        "string": {
+          "value": ""
+        }
+      },
+      "type": "string",
+      "name": "var_response2"
+    },
+    {
+      "value": {
+        "properties": {
+          "property": []
+        }
+      },
+      "type": "Properties",
+      "name": "var_outtest"
+    },
+    {
+      "value": {
+        "array": {
+          "elements": []
+        }
+      },
+      "type": "Array/Properties",
+      "name": "var_outtestArray"
+    },
+    {
+      "value": {
+        "properties": {
+          "property": []
+        }
+      },
+      "type": "Properties",
+      "name": "var_outtest2"
+    },
+    {
+      "value": {
+        "array": {
+          "elements": []
+        }
+      },
+      "type": "Array/Properties",
+      "name": "var_outtestArray2"
+    },
+    {
+      "value": {
+        "string": {
+          "value": ""
+        }
+      },
+      "type": "string",
+      "name": "var_totalElements"
+    },
+    {
+      "value": {
+        "string": {
+          "value": ""
+        }
+      },
+      "type": "string",
+      "name": "var_totalElements2"
+    },
+    {
+      "value": {
+        "string": {
+          "value": ""
+        }
+      },
+      "type": "string",
+      "name": "var_status"
+    }
+  ],
+  "workflow-item": [
+    {
+      "in-binding": {},
+      "out-binding": {},
+      "position": {
+        "y": 10,
+        "x": 830
+      },
+      "name": "item0",
+      "type": "end",
+      "end-mode": "0",
+      "comparator": 0
+    },
+    {
+      "display-name": "API Rest Call POST",
+      "script": {
+        "value": 
+        "/*
+        .SYNOPSIS
+            Checks vCenter for in_vmname, to check if VM name is already in use.
+        .DESCRIPTION
+            Checks vCenter for in_vmname, to check if VM name is already in use.
+        .AUTHOR
+            Anders Mikkelsen (github.com/amikkelsendk) og Sølve Holm.
+        .CREATION DATE
+            25-09-12
+            */
+            
+                REST: execute pipeline - 1/2
+            try {
+                var restClient = var_vRAHost.createRestClient();
+                System.log(\"****** Checking for vm name \" + in_vmName + \" in vCenter *****\");
+                var request1 = restClient.createRequest( \"GET\", \"/iaas/api/machines?%24filter=name%2Beq%2B%27\" + in_vmName + \"%27\");
+                var response = restClient.execute( request1 );
+            
+                System.log(\"****** Rest Response ***** \");
+                var statusCode = response.statusCode;
+                System.log( \"Status code: \" + statusCode );
+                System.log( \"Response1: \" + response.contentAsString );
+            
+                var responsejson = JSON.parse(response.contentAsString);
+                System.log(\"totalElements: \" + responsejson.totalElements );
+                var_totalElements = responsejson.totalElements;
+                
+                var_outtest = responsejson.content[0];
+                var_outtestArray = responsejson.content;
+            
+                if ( response.statusCode==202 ) {
+                    System.log( \"Request accepted\" );
+                    var_response1 = JSON.stringify(response);
+                }
+            }
+            catch ( err ) {
+                System.log ( \"***** Failed to run request *****\" );
+                System.error( err );
+            }
+            
+             REST: execute pipeline - 2/2
+            try {
+                var restClient = var_vRAHost.createRestClient();
+                System.log(\"****** Checking for vm name: \" + in_vmName + '.*' + \" in vCenter ***** \");
+                var request2 = restClient.createRequest( \"GET\", \"/iaas/api/machines?%24filter=name%2Beq%2B%27\" + in_vmName + \".*\" + \"%27\");
+                var response2 = restClient.execute( request2 );
+            
+                System.log(\"****** Rest Response2 ***** \");
+                var statusCode = response2.statusCode;
+                System.log( \"Status code: \" + statusCode );
+                System.log( \"Response2: \" + response2.contentAsString );
+            
+                var response2json = JSON.parse(response2.contentAsString);
+            
+                System.log(\"totalElements: \" + response2json.totalElements );
+                var_totalElements2 = response2json.totalElements;
+            
+                var_outtest2 = response2json.content[0];
+                var_outtestArray2 = response2json.content;
+             
+                if ( response2.statusCode==202 ) {
+                    System.log( \"Request accepted\" );
+                    var_response2 = JSON.stringify(response2);
+                }
+            }
+            catch ( err ) {
+                System.log ( \"***** Failed to run request *****\" );
+                System.error( err );
+            }
+            ",
+        "encoded": false
+      },
+      "in-binding": {
+        "bind": [
+          {
+            "name": "var_vRAHost",
+            "type": "VRA:Host",
+            "export-name": "var_vRAHost"
+          },
+          {
+            "name": "in_vmName",
+            "type": "string",
+            "export-name": "in_vmName"
+          }
+        ]
+      },
+      "out-binding": {
+        "bind": [
+          {
+            "name": "var_response1",
+            "type": "string",
+            "export-name": "var_response1"
+          },
+          {
+            "name": "var_response2",
+            "type": "string",
+            "export-name": "var_response2"
+          },
+          {
+            "name": "var_outtest",
+            "type": "Properties",
+            "export-name": "var_outtest"
+          },
+          {
+            "name": "var_outtestArray",
+            "type": "Array/Properties",
+            "export-name": "var_outtestArray"
+          },
+          {
+            "name": "var_outtest2",
+            "type": "Properties",
+            "export-name": "var_outtest2"
+          },
+          {
+            "name": "var_outtestArray2",
+            "type": "Array/Properties",
+            "export-name": "var_outtestArray2"
+          },
+          {
+            "name": "var_totalElements",
+            "type": "string",
+            "export-name": "var_totalElements"
+          },
+          {
+            "name": "var_totalElements2",
+            "type": "string",
+            "export-name": "var_totalElements2"
+          }
+        ]
+      },
+      "description": "",
+      "position": {
+        "y": 20,
+        "x": 530
+      },
+      "name": "item1",
+      "out-name": "item6",
+      "type": "task",
+      "comparator": 0
+    },
+    {
+      "in-binding": {},
+      "out-binding": {},
+      "position": {
+        "y": 65,
+        "x": 570
+      },
+      "name": "item3",
+      "type": "end",
+      "end-mode": "0",
+      "comparator": 0
+    },
+    {
+      "display-name": "Check - Received VRA Host?",
+      "script": {
+        "value": 
+          "
+          if(!var_vRAHost){
+              return false;
+          };
+          
+          return true;
+          ",
+        "encoded": false
+      },
+      "in-binding": {
+        "bind": [
+          {
+            "name": "var_vRAHost",
+            "type": "VRA:Host",
+            "export-name": "var_vRAHost"
+          }
+        ]
+      },
+      "out-binding": {},
+      "description": "",
+      "position": {
+        "y": 65,
+        "x": 400
+      },
+      "name": "item4",
+      "out-name": "item1",
+      "alt-out-name": "item3",
+      "type": "custom-condition",
+      "comparator": 0
+    },
+    {
+      "display-name": "Return VRA Host",
+      "script": {
+        "value": "",
+        "encoded": false
+      },
+      "in-binding": {},
+      "out-binding": {
+        "bind": [
+          {
+            "name": "out_vrahost",
+            "type": "VRA:Host",
+            "export-name": "var_vRAHost"
+          }
+        ]
+      },
+      "description": "",
+      "position": {
+        "y": 75,
+        "x": 270
+      },
+      "name": "item5",
+      "out-name": "item4",
+      "type": "link",
+      "linked-workflow-id": "id",
+      "comparator": 0
+    },
+    {
+      "display-name": "check totalElements",
+      "script": {
+        "value": 
+          "
+          if( var_totalElements >= 1 || var_totalElements2 >= 1 ){
+              throw new Error(\"virtual machine name found in vCenter\");
+          } 
+          else{
+              System.log(\"Virtual Name not found in vCenter for Name: \" + in_vmName);
+              out_status = \"200\";
+              var_status = \"200\";
+          }
+          ",
+        "encoded": false
+      },
+      "in-binding": {
+        "bind": [
+          {
+            "name": "var_totalElements",
+            "type": "string",
+            "export-name": "var_totalElements"
+          },
+          {
+            "name": "var_totalElements2",
+            "type": "string",
+            "export-name": "var_totalElements2"
+          },
+          {
+            "name": "in_vmName",
+            "type": "string",
+            "export-name": "in_vmName"
+          }
+        ]
+      },
+      "out-binding": {
+        "bind": [
+          {
+            "name": "out_status",
+            "type": "string",
+            "export-name": "out_status"
+          },
+          {
+            "name": "var_status",
+            "type": "string",
+            "export-name": "var_status"
+          }
+        ]
+      },
+      "description": "",
+      "position": {
+        "y": 20,
+        "x": 660
+      },
+      "name": "item6",
+      "out-name": "item0",
+      "type": "task",
+      "comparator": 0
+    },
+    {
+      "in-binding": {},
+      "out-binding": {},
+      "position": {
+        "y": 120,
+        "x": 310
+      },
+      "name": "item7",
+      "type": "end",
+      "end-mode": "0",
+      "comparator": 0
+    },
+    {
+      "display-name": "Skip full workflow?",
+      "script": {
+        "value": 
+          "
+          if(in_skip.toLowerCase() == \"yes\"){
+              System.log(\"SKIPPED WORKFLOW: \" + workflow.name);
+              return false;
+          } 
+          
+          return true;
+          ",
+        "encoded": false
+      },
+      "in-binding": {
+        "bind": [
+          {
+            "name": "in_skip",
+            "type": "string",
+            "export-name": "in_skip"
+          }
+        ]
+      },
+      "out-binding": {},
+      "description": "",
+      "position": {
+        "y": 120,
+        "x": 140
+      },
+      "name": "item8",
+      "out-name": "item5",
+      "alt-out-name": "item7",
+      "type": "custom-condition",
+      "comparator": 0
+    }
+  ],
+  "root-name": "item8",
+  "object-name": "workflow:name=generic",
+  "id": "id",
+  "version": "0.0.2",
+  "api-version": "0.0.0",
+  "allowed-operations": "vef",
+  "restartMode": 1,
+  "resumeFromFailedMode": 0,
+  "editor-version": "2.0"
+}

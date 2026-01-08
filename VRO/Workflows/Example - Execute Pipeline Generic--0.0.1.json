@@ -1,0 +1,293 @@
+{
+    "api-version": "0.0.0",
+    "attrib": [
+        {
+            "name": "var_vRAHost",
+            "type": "VRA:Host"
+        },
+        {
+            "name": "var_PipelineID",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": "id"
+                }
+            }
+        },
+        {
+            "name": "var_responseOutPipelineExecution",
+            "type": "Properties",
+            "value": {
+                "properties": {
+                    "property": []
+                }
+            }
+        },
+        {
+            "name": "var_responseOutPipelineExecutionArray",
+            "type": "Array/Properties",
+            "value": {
+                "array": {
+                    "elements": []
+                }
+            }
+        },
+        {
+            "name": "var_pipelineExecutionID",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_responseOutGetPipelineExecution",
+            "type": "Properties",
+            "value": {
+                "properties": {
+                    "property": []
+                }
+            }
+        }
+    ],
+    "display-name": "Example - Execute Pipeline Generic",
+    "editor-version": "2.0",
+    "id": "id",
+    "input": {},
+    "object-name": "workflow:name=generic",
+    "output": {},
+    "position": {
+        "x": 50.0,
+        "y": 65.0
+    },
+    "restartMode": 1,
+    "resumeFromFailedMode": 0,
+    "root-name": "item5",
+    "version": "0.0.1",
+    "workflow-item": [
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item0",
+            "out-binding": {},
+            "position": {
+                "x": 700.0,
+                "y": 10.0
+            },
+            "type": "end"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "API Rest Call POST - Run Execute Pipeline",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_PipelineID",
+                        "name": "var_PipelineID",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_vRAHost",
+                        "name": "var_vRAHost",
+                        "type": "VRA:Host"
+                    }
+                ]
+            },
+            "name": "item1",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_responseOutPipelineExecution",
+                        "name": "var_responseOutPipelineExecution",
+                        "type": "Properties"
+                    },
+                    {
+                        "export-name": "var_responseOutPipelineExecutionArray",
+                        "name": "var_responseOutPipelineExecutionArray",
+                        "type": "Array/Properties"
+                    },
+                    {
+                        "export-name": "var_pipelineExecutionID",
+                        "name": "var_pipelineExecutionID",
+                        "type": "string"
+                    }
+                ]
+            },
+            "out-name": "item7",
+            "position": {
+                "x": 400.0,
+                "y": 20.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    /*
+                    .SYNOPSIS
+                        Makes a simple REST API call to the pipelines system and runs a generic pipeline.
+                    .DESCRIPTION
+                        Makes a simple REST API call to the pipelines system and runs a generic pipeline.
+                    .AUTHOR
+                    Anders Mikkelsen (github.com/amikkelsendk) og Sølve Holm
+                    .CREATION DATE
+                        25-09-12
+                    */
+
+                    // Create pipeline payload/input
+
+                    var payload = '{ \\
+                        \"comments\": \"Executed via API\", \\
+                        \"input\": { \\
+                            \"text\": \"hello world1234\" \\
+                        } \\
+                    }'
+
+                    /*var payload2 = '{ \\
+                        \"comments\": \"Executed via API\", \\
+                        \"input\": {} \\
+                    }'*/
+
+                    // REST: execute pipeline
+                    try {
+                        var restClient = var_vRAHost.createRestClient();
+                        var request = restClient.createRequest( \"POST\", \"/codestream/api/pipelines/\"+var_PipelineID+\"/executions\", payload );
+                        var response = restClient.execute( request );
+                    
+                        System.log(\"******Rest Response***** \");
+                        var statusCode = response.statusCode;
+                        System.log( \"Status code: \" + statusCode );
+                        System.log( \"Response: \" + response.contentAsString );
+
+                        var responsejson = JSON.parse(response.contentAsString);
+                        System.log(responsejson);
+                        var_responseOutPipelineExecution = responsejson;
+                        var_pipelineExecutionID = responsejson.executionId;
+                        //var_responseOutPipelineExecution = responsejson.content[0];
+                        //var_responseOutPipelineExecutionArray = responsejson.content;
+                    
+                        if ( response.statusCode==202 ) {
+                            System.log( \"Request accepted\" );
+                            System.log( \"Follow/view pipeline execution status in vRA\" );
+                        }
+                    }
+                    catch ( err ) {
+                        System.log ( \"***** Failed to run request *****\" );
+                        System.error( err );
+                    }
+                    "
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item3",
+            "out-binding": {},
+            "position": {
+                "x": 440.0,
+                "y": 65.0
+            },
+            "type": "end"
+        },
+        {
+            "alt-out-name": "item3",
+            "comparator": 0,
+            "description": "",
+            "display-name": "Check - Received VRA Host?",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_vRAHost",
+                        "name": "var_vRAHost",
+                        "type": "VRA:Host"
+                    }
+                ]
+            },
+            "name": "item4",
+            "out-binding": {},
+            "out-name": "item1",
+            "position": {
+                "x": 270.0,
+                "y": 65.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    if(!var_vRAHost){
+                        return false;
+                    };
+
+                    return true;
+                    "
+            },
+            "type": "custom-condition"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Return VRA Host",
+            "in-binding": {},
+            "linked-workflow-id": "id",
+            "name": "item5",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_vRAHost",
+                        "name": "out_vrahost",
+                        "type": "VRA:Host"
+                    }
+                ]
+            },
+            "out-name": "item4",
+            "position": {
+                "x": 140.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": ""
+            },
+            "type": "link"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Get Pipeline Execution",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_pipelineExecutionID",
+                        "name": "in_pipelineExecutionID",
+                        "type": "string"
+                    }
+                ]
+            },
+            "linked-workflow-id": "id",
+            "name": "item7",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_responseOutGetPipelineExecution",
+                        "name": "out_responseOutGetPipelineExecution",
+                        "type": "Properties"
+                    }
+                ]
+            },
+            "out-name": "item0",
+            "position": {
+                "x": 530.0,
+                "y": 20.0
+            },
+            "script": {
+                "encoded": false,
+                "value": ""
+            },
+            "type": "link"
+        }
+    ]
+}

@@ -1,0 +1,128 @@
+{
+    "api-version": "0.0.0",
+    "attrib": [],
+    "description": "",
+    "display-name": "Service - Convert SSH From Old Entry",
+    "editor-version": "2.0",
+    "id": "id",
+    "input": {
+        "param": [
+            {
+                "name": "in_endpoint",
+                "type": "string"
+            },
+            {
+                "name": "in_organizationalunit",
+                "type": "string"
+            },
+            {
+                "name": "in_ip",
+                "type": "string"
+            },
+            {
+                "name": "in_manager",
+                "type": "string"
+            },
+            {
+                "name": "in_vmname",
+                "type": "string"
+            }
+        ]
+    },
+    "object-name": "workflow:name=generic",
+    "output": {},
+    "position": {
+        "x": 50.0,
+        "y": 10.0
+    },
+    "restartMode": 1,
+    "resumeFromFailedMode": 0,
+    "root-name": "item1",
+    "version": "0.0.1",
+    "workflow-item": [
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item0",
+            "out-binding": {},
+            "position": {
+                "x": 440.0,
+                "y": 10.0
+            },
+            "type": "end"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Remove-SSHEntrypoint",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "in_endpoint",
+                        "name": "in_endpoint",
+                        "type": "string"
+                    }
+                ]
+            },
+            "linked-workflow-id": "id",
+            "name": "item1",
+            "out-binding": {},
+            "out-name": "item2",
+            "position": {
+                "x": 140.0,
+                "y": 20.0
+            },
+            "script": {
+                "encoded": false,
+                "value": ""
+            },
+            "type": "link"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "New-SSHEntrypoint",
+            "in-binding": {
+                "bind": [
+                    {
+                        "description": "OU of the VM, which this workflow will make an SSH for",
+                        "export-name": "in_organizationalunit",
+                        "name": "in_organizationalunit",
+                        "type": "string"
+                    },
+                    {
+                        "description": "DNS of VM, which this workflow will make an SSH for",
+                        "export-name": "in_ip",
+                        "name": "in_ip",
+                        "type": "string"
+                    },
+                    {
+                        "description": "Manager/manager of VM, which this workflow will make an SSH for",
+                        "export-name": "in_manager",
+                        "name": "in_manager",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_vmname",
+                        "name": "in_vmname",
+                        "type": "string"
+                    }
+                ]
+            },
+            "linked-workflow-id": "id",
+            "name": "item2",
+            "out-binding": {},
+            "out-name": "item0",
+            "position": {
+                "x": 270.0,
+                "y": 20.0
+            },
+            "script": {
+                "encoded": false,
+                "value": ""
+            },
+            "type": "link"
+        }
+    ]
+}

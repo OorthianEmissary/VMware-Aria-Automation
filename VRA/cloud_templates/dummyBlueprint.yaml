@@ -1,0 +1,18 @@
+formatVersion: 1
+inputs:
+  customProperty1:
+    type: string
+    title: customProperty1
+resources:
+  Cloud_Network_1:
+    type: Cloud.Network
+    metadata:
+      layoutPosition:
+        - 0
+        - 0
+    properties:
+      networkType: existing
+      #-------------------------------------------------------#
+      # CUSTOM PROPERTIES
+      #-------------------------------------------------------#
+      customProperty1: ${input.customProperty1}

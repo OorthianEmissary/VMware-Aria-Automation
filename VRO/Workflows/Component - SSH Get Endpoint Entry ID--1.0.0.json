@@ -1,0 +1,314 @@
+{
+    "allowed-operations": "vef",
+    "api-version": "0.0.0",
+    "attrib": [
+        {
+            "name": "var_config",
+            "type": "ConfigurationElement",
+            "value": {
+                "sdk-object": {
+                    "href": "https://domain.net:443/vco/api/catalog/System/ConfigurationElement/id/",
+                    "id": "id",
+                    "type": "ConfigurationElement"
+                }
+            }
+        },
+        {
+            "name": "var_token",
+            "type": "SecureString",
+            "value": {
+                "secure-string": {
+                    "isPlainText": false,
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_sshurl",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        }
+    ],
+    "description": "Component for getting the  entry ID in the ssh.",
+    "display-name": "Component - SSH Get Endpoint Entry ID",
+    "editor-version": "2.0",
+    "id": "id",
+    "input": {
+        "param": [
+            {
+                "description": "Set to yes to fully skip workflow. ",
+                "name": "in_skip",
+                "type": "string"
+            },
+            {
+                "name": "in_endpoint",
+                "type": "string"
+            }
+        ]
+    },
+    "object-name": "workflow:name=generic",
+    "output": {
+        "param": [
+            {
+                "name": "out_idFound",
+                "type": "string"
+            },
+            {
+                "name": "out_endpointId",
+                "type": "string"
+            }
+        ]
+    },
+    "position": {
+        "x": 50.0,
+        "y": 65.0
+    },
+    "restartMode": 1,
+    "resumeFromFailedMode": 0,
+    "root-name": "item3",
+    "version": "1.0.0",
+    "workflow-item": [
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item0",
+            "out-binding": {},
+            "position": {
+                "x": 700.0,
+                "y": 65.0
+            },
+            "type": "end"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "GET SSH Entry ID",
+            "environment": {
+                "id": "id",
+                "name": "PythonRequests"
+            },
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "in_endpoint",
+                        "name": "in_endpoint",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_sshurl",
+                        "name": "in_sshurl",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_token",
+                        "name": "var_token",
+                        "type": "SecureString"
+                    }
+                ]
+            },
+            "name": "item1",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "out_idFound",
+                        "name": "out_idFound",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "out_endpointId",
+                        "name": "out_endpointId",
+                        "type": "string"
+                    }
+                ]
+            },
+            "out-name": "item0",
+            "position": {
+                "x": 530.0,
+                "y": 75.0
+            },
+            "runtime": "environment:id",
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    \"\"\"
+                    .SYNOPSIS
+                        Request for SSH ID.
+                    .DESCRIPTION
+                        Request for SSH ID.
+                    .NOTES
+                        Author:         Sølve Holm
+                        Creation Date:  21-01-2025
+                    .Log
+                        21-01-2025: Version 1.
+                    \"\"\"
+
+                    import json
+                    import requests
+
+                    def handler(context, inputs):
+
+                        #Get inputs
+                       Token = inputs['var_token']
+                        sshurl = inputs['in_sshurl']
+                        endpoint = inputs['in_endpoint']
+
+                        # Make payload as dictionary and convert to json
+                        payloadDictionary = {
+                            \"endpoint\": endpoint
+                        }
+                        payload = json.dumps(payloadDictionary)
+
+                        # Make headers
+                        headers = {
+                            'Content-Type': 'application/json; charset=utf-8',
+                            'Authorization': f' {token}'
+                        }
+
+                        # Make the GET request and print response
+                        url = f\"{sshurl}/api/endpoints\"
+                        response = requests.request(\"GET\", url, headers=headers, data=payload)
+                        #print(response.text)
+                        responseMessage = json.loads(response.text)['message']
+                        print(f\"RESPONSE MESSAGE: {responseMessage}\")
+                        endpointID = \"\"
+                        idFound = \"0\"
+
+                        if responseMessage:
+                            # Save and output the endpointID
+                            endpointID = f\"{json.loads(response.text)['message'][0]['id']}\"
+                            print(f\"The Endpoint ID is: {endpointID}\")
+                            idFound = \"1\"
+
+                        # Building outputs    
+                        outputs = {
+                            \"out_endpointId\": endpointID,
+                            \"out_idFound\": idFound 
+                        }
+
+                        print(f\"Outputs: {outputs}\")
+
+                        return outputs
+                        "
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item2",
+            "out-binding": {},
+            "position": {
+                "x": 310.0,
+                "y": 10.0
+            },
+            "type": "end"
+        },
+        {
+            "alt-out-name": "item2",
+            "comparator": 0,
+            "description": "",
+            "display-name": "Skip Full Workflow?",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "in_skip",
+                        "name": "in_skip",
+                        "type": "string"
+                    }
+                ]
+            },
+            "name": "item3",
+            "out-binding": {},
+            "out-name": "item4",
+            "position": {
+                "x": 140.0,
+                "y": 65.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    if(in_skip.toLowerCase() == \"yes\"){
+                        System.log(\"SKIPPED WORKFLOW: \" + workflow.name);
+                        return false;
+                    } 
+
+                    return true;
+                    "
+            },
+            "type": "custom-condition"
+        },
+        {
+            "business-status": "",
+            "comparator": 0,
+            "description": "",
+            "display-name": "Get ConfigurationItem Variables",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_config",
+                        "name": "var_config",
+                        "type": "ConfigurationElement"
+                    }
+                ]
+            },
+            "name": "item4",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_sshurl",
+                        "name": "var_sshurl",
+                        "type": "string"
+                    }
+                ]
+            },
+            "out-name": "item5",
+            "position": {
+                "x": 270.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    "
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Component - Get SSH Session Token",
+            "in-binding": {},
+            "linked-workflow-id": "id",
+            "name": "item5",
+            "out-binding": {
+                "bind": [
+                    {
+                        "description": "token for authentication",
+                        "export-name": "var_token",
+                        "name": "out_token",
+                        "type": "SecureString"
+                    }
+                ]
+            },
+            "out-name": "item1",
+            "position": {
+                "x": 400.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": ""
+            },
+            "type": "link"
+        }
+    ]
+}

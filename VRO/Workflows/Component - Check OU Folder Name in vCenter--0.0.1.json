@@ -1,0 +1,307 @@
+{
+  "display-name": "Component - Check OU Folder Name in vCenter",
+  "description": "",
+  "position": {
+    "y": 65,
+    "x": 50
+  },
+  "input": {
+    "param": [
+      {
+        "name": "in_ouFolderName",
+        "type": "string"
+      }
+    ]
+  },
+  "output": {
+    "param": [
+      {
+        "name": "out_status",
+        "type": "string"
+      },
+      {
+        "name": "out_ouExistStatus",
+        "type": "string"
+      }
+    ]
+  },
+  "attrib": [
+    {
+      "type": "VRA:Host",
+      "name": "var_vRAHost"
+    },
+    {
+      "value": {
+        "string": {
+          "value": ""
+        }
+      },
+      "type": "string",
+      "name": "var_response1"
+    },
+    {
+      "value": {
+        "properties": {
+          "property": []
+        }
+      },
+      "type": "Properties",
+      "name": "var_outtest"
+    },
+    {
+      "value": {
+        "array": {
+          "elements": []
+        }
+      },
+      "type": "Array/Properties",
+      "name": "var_outtestArray"
+    },
+    {
+      "value": {
+        "string": {
+          "value": ""
+        }
+      },
+      "type": "string",
+      "name": "var_totalElements"
+    }
+  ],
+  "workflow-item": [
+    {
+      "in-binding": {},
+      "out-binding": {},
+      "position": {
+        "y": 10,
+        "x": 700
+      },
+      "name": "item0",
+      "type": "end",
+      "end-mode": "0",
+      "comparator": 0
+    },
+    {
+      "display-name": "API Rest Call POST",
+      "script": {
+        "value": 
+            "/*
+            .SYNOPSIS
+                Checks vCenter for in_ouFolderName, to check if VM name is already in use.
+            .DESCRIPTION
+                Checks vCenter for in_ouFolderName, to check if VM name is already in use.
+            .AUTHOR
+                Anders Mikkelsen (github.com/amikkelsendk) og Sølve Holm.
+            .CREATION DATE
+                20-10-12
+            
+            REST: Execute Pipeline
+            try {
+                var restClient = var_vRAHost.createRestClient();
+                System.log(\"****** Checking for OU Folder \" + in_ouFolderName + \" in vCenter *****\");
+                var request1 = restClient.createRequest( \"GET\", \"/iaas/api/folders?apiVersion=2021-07-15&%24filter=name%2Beq%2B\" + in_ouFolderName );
+                var response = restClient.execute( request1 );
+            
+                System.log(\"****** Rest Response ***** \");
+                var statusCode = response.statusCode;
+                System.log( \"Status code: \" + statusCode );
+                System.log( \"Response1: \" + response.contentAsString );
+            
+                var responsejson = JSON.parse(response.contentAsString);
+                System.log(\"totalElements: \" + responsejson.numberOfElements );
+                var_totalElements = responsejson.numberOfElements;
+                
+                var_outtest = responsejson.content[0];
+                var_outtestArray = responsejson.content;
+            
+                if ( response.statusCode==202 ) {
+                    System.log( \"Request accepted\" );
+                    var_response1 = JSON.stringify(response);
+                }
+            }
+            catch ( err ) {
+                System.log ( \"***** Failed to run request *****\" );
+                System.error( err );
+            }
+            ",
+        "encoded": false
+      },
+      "in-binding": {
+        "bind": [
+          {
+            "name": "var_vRAHost",
+            "type": "VRA:Host",
+            "export-name": "var_vRAHost"
+          },
+          {
+            "name": "in_ouFolderName",
+            "type": "string",
+            "export-name": "in_ouFolderName"
+          }
+        ]
+      },
+      "out-binding": {
+        "bind": [
+          {
+            "name": "var_response1",
+            "type": "string",
+            "export-name": "var_response1"
+          },
+          {
+            "name": "var_outtest",
+            "type": "Properties",
+            "export-name": "var_outtest"
+          },
+          {
+            "name": "var_outtestArray",
+            "type": "Array/Properties",
+            "export-name": "var_outtestArray"
+          },
+          {
+            "name": "var_totalElements",
+            "type": "string",
+            "export-name": "var_totalElements"
+          }
+        ]
+      },
+      "description": "",
+      "position": {
+        "y": 20,
+        "x": 400
+      },
+      "name": "item1",
+      "out-name": "item6",
+      "type": "task",
+      "comparator": 0
+    },
+    {
+      "in-binding": {},
+      "out-binding": {},
+      "position": {
+        "y": 65,
+        "x": 440
+      },
+      "name": "item3",
+      "type": "end",
+      "end-mode": "0",
+      "comparator": 0
+    },
+    {
+      "display-name": "Check - Received VRA Host?",
+      "script": {
+        "value": 
+            "
+            if(!var_vRAHost){
+                return false;
+            };
+            return true;
+            ",
+        "encoded": false
+      },
+      "in-binding": {
+        "bind": [
+          {
+            "name": "var_vRAHost",
+            "type": "VRA:Host",
+            "export-name": "var_vRAHost"
+          }
+        ]
+      },
+      "out-binding": {},
+      "description": "",
+      "position": {
+        "y": 65,
+        "x": 270
+      },
+      "name": "item4",
+      "out-name": "item1",
+      "alt-out-name": "item3",
+      "type": "custom-condition",
+      "comparator": 0
+    },
+    {
+      "display-name": "Return VRA Host",
+      "script": {
+        "value": "",
+        "encoded": false
+      },
+      "in-binding": {},
+      "out-binding": {
+        "bind": [
+          {
+            "name": "out_vrahost",
+            "type": "VRA:Host",
+            "export-name": "var_vRAHost"
+          }
+        ]
+      },
+      "description": "",
+      "position": {
+        "y": 75,
+        "x": 140
+      },
+      "name": "item5",
+      "out-name": "item4",
+      "type": "link",
+      "linked-workflow-id": "id",
+      "comparator": 0
+    },
+    {
+      "display-name": "check totalElements",
+      "script": {
+        "value": 
+          "
+          if ( var_totalElements == 0 ) {
+              out_status = \"200\";
+              out_ouExistStatus = \"0\"; The OU does not exists in vCenter
+          }
+          else {
+              out_status = \"200\";
+              out_ouExistStatus = \"1\"; The OU exists in vCenter
+          }
+          ",
+        "encoded": false
+      },
+      "in-binding": {
+        "bind": [
+          {
+            "name": "var_totalElements",
+            "type": "string",
+            "export-name": "var_totalElements"
+          }
+        ]
+      },
+      "out-binding": {
+        "bind": [
+          {
+            "name": "out_status",
+            "type": "string",
+            "export-name": "out_status"
+          },
+          {
+            "name": "out_ouExistStatus",
+            "type": "string",
+            "export-name": "out_ouExistStatus"
+          }
+        ]
+      },
+      "description": "",
+      "position": {
+        "y": 20,
+        "x": 530
+      },
+      "name": "item6",
+      "out-name": "item0",
+      "type": "task",
+      "comparator": 0
+    }
+  ],
+  "root-name": "item5",
+  "object-name": "workflow:name=generic",
+  "id": "id",
+  "version": "0.0.1",
+  "api-version": "0.0.0",
+  "allowed-operations": "vef",
+  "restartMode": 1,
+  "resumeFromFailedMode": 0,
+  "editor-version": "2.0"
+}

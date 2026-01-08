@@ -1,0 +1,406 @@
+{
+    "allowed-operations": "vef",
+    "api-version": "0.0.0",
+    "attrib": [
+        {
+            "description": "token for authentication",
+            "name": "var_token",
+            "type": "SecureString",
+            "value": {
+                "secure-string": {
+                    "isPlainText": false,
+                    "value": ""
+                }
+            }
+        },
+        {
+            "description": "url of ssh",
+            "name": "var_sshurl",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "description": "",
+            "name": "var_config",
+            "type": "ConfigurationElement",
+            "value": {
+                "sdk-object": {
+                    "href": "https://domain.net:443/vco/api/catalog/System/ConfigurationElement/id/",
+                    "id": "id",
+                    "type": "ConfigurationElement"
+                }
+            }
+        },
+        {
+            "description": "ID of endpoint, used for deleting item belonging to ID",
+            "name": "var_endpointID",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_idFound",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_endpointId",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        }
+    ],
+    "display-name": "Service - Remove SSH",
+    "editor-version": "2.0",
+    "id": "id",
+    "input": {
+        "param": [
+            {
+                "name": "in_endpoint",
+                "type": "string"
+            }
+        ]
+    },
+    "object-name": "workflow:name=generic",
+    "output": {},
+    "position": {
+        "x": 50.0,
+        "y": 65.0
+    },
+    "restartMode": 1,
+    "resumeFromFailedMode": 0,
+    "root-name": "item6",
+    "version": "0.0.0",
+    "workflow-item": [
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item0",
+            "out-binding": {},
+            "position": {
+                "x": 1090.0,
+                "y": 10.0
+            },
+            "type": "end"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "DELETEEntrypoint",
+            "environment": {
+                "id": "id",
+                "name": "PythonRequests"
+            },
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_token",
+                        "name": "var_token",
+                        "type": "SecureString"
+                    },
+                    {
+                        "export-name": "var_sshurl",
+                        "name": "var_sshurl",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_endpointId",
+                        "name": "var_endpointId",
+                        "type": "string"
+                    }
+                ]
+            },
+            "name": "item3",
+            "out-binding": {},
+            "out-name": "item0",
+            "position": {
+                "x": 920.0,
+                "y": 20.0
+            },
+            "runtime": "environment:id",
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    \"\"\"
+                    .SYNOPSIS
+                        DELETE Request for SSH using entry ID.
+                    .DESCRIPTION
+                        DELETE Request for SSH using entry ID.
+                    .NOTES
+                        Author:         Sølve Holm
+                        Creation Date:  21-01-2025
+                    .Log
+                        21-01-2025: Version 1.
+                    \"\"\"
+
+                    import json
+                    import requests
+
+                    def handler(context, inputs):
+
+                        #Get inputs
+                    Token = inputs['var_token']
+                        sshurl = inputs['var_sshurl']
+                        endpointId = inputs['var_endpointId']
+                        
+                        # Make payload as dictionary and convert to json
+                        payloadDictionary = {
+                            \"endpointid\": endpointId
+                        }
+                        payload = json.dumps(payloadDictionary)
+
+                        # Make headers
+                        headers = {
+                            'Content-Type': 'application/json; charset=utf-8',
+                            'Authorization': f' {token}'
+                        }
+                        
+                        # Make the DELETE request and print response
+                        url = f\"{sshurl}/api/endpoints\"
+                        response = requests.request(\"DELETE\", url, headers=headers, data=payload)
+                        print(response.text)
+                        
+                        outputs = {
+                        \"status\": \"done\"
+                        }
+
+                        return outputs
+                        "
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Component - Get SSH Session Token",
+            "in-binding": {},
+            "linked-workflow-id": "id",
+            "name": "item5",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_token",
+                        "name": "out_token",
+                        "type": "SecureString"
+                    }
+                ]
+            },
+            "out-name": "item12",
+            "position": {
+                "x": 270.0,
+                "y": 75.0
+            },
+            "type": "link"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "configitemGetVariables",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_config",
+                        "name": "var_config",
+                        "type": "ConfigurationElement"
+                    }
+                ]
+            },
+            "name": "item6",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_sshurl",
+                        "name": "var_sshurl",
+                        "type": "string"
+                    }
+                ]
+            },
+            "out-name": "item5",
+            "position": {
+                "x": 140.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": "var_config.getAttributeWithKey(\"key\").value;"
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "GETEntryID (DEPRECATED)",
+            "environment": {
+                "id": "id",
+                "name": "PythonRequests"
+            },
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "in_endpoint",
+                        "name": "in_endpoint",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_token",
+                        "name": "var_token",
+                        "type": "SecureString"
+                    },
+                    {
+                        "export-name": "var_sshurl",
+                        "name": "var_sshurl",
+                        "type": "string"
+                    }
+                ]
+            },
+            "name": "item7",
+            "out-binding": {},
+            "out-name": "item10",
+            "position": {
+                "x": 660.0,
+                "y": 75.0
+            },
+            "runtime": "environment:id",
+            "script": {
+                "encoded": false,
+                "value": 
+                   "(DEPRECATED)"
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item9",
+            "out-binding": {},
+            "position": {
+                "x": 960.0,
+                "y": 65.0
+            },
+            "type": "end"
+        },
+        {
+            "alt-out-name": "item9",
+            "comparator": 0,
+            "description": "",
+            "display-name": "Check var_endpointID",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_idFound",
+                        "name": "var_idFound",
+                        "type": "string"
+                    }
+                ]
+            },
+            "name": "item10",
+            "out-binding": {},
+            "out-name": "item3",
+            "position": {
+                "x": 790.0,
+                "y": 65.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                "
+                if(var_idFound == \"1\"){
+                    return true;
+                }
+
+                return false;
+                "
+            },
+            "type": "custom-condition"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Scriptable task",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_endpointId",
+                        "name": "var_endpointId",
+                        "type": "string"
+                    }
+                ]
+            },
+            "name": "item11",
+            "out-binding": {},
+            "out-name": "item7",
+            "position": {
+                "x": 530.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": "System.log(var_endpointId);"
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Component - SSH Get Endpoint Entry ID",
+            "in-binding": {
+                "bind": [
+                    {
+                        "description": "Set to yes to fully skip workflow. ",
+                        "export-name": "",
+                        "name": "in_skip",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_endpoint",
+                        "name": "in_endpoint",
+                        "type": "string"
+                    }
+                ]
+            },
+            "linked-workflow-id": "id",
+            "name": "item12",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_idFound",
+                        "name": "out_idFound",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_endpointId",
+                        "name": "out_endpointId",
+                        "type": "string"
+                    }
+                ]
+            },
+            "out-name": "item11",
+            "position": {
+                "x": 400.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": ""
+            },
+            "type": "link"
+        }
+    ]
+}

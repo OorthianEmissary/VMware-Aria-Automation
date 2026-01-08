@@ -1,0 +1,36 @@
+{
+  "href": "https://domain.net:443/vco/api/actions/id/",
+  "relations": {
+    "link": [
+      {
+        "href": "https://domain.net:443/vco/api/actions/folder.utils/firewallRulesDatagridToString/",
+        "rel": "alternate"
+      },
+      {
+        "href": "https://domain.net:443/vco/api/actions/id/permissions/",
+        "rel": "permissions"
+      },
+      {
+        "href": "https://domain.net:443/vco/api/actions/id/executions/",
+        "rel": "executions"
+      }
+    ]
+  },
+  "id": "id",
+  "input-parameters": [
+    {
+      "description": "",
+      "type": "Array/CompositeType(Source:string,Destination:string,Port:string):FirewallRules",
+      "name": "firewallDataGrid"
+    }
+  ],
+  "output-type": "string",
+  "name": "firewallRulesDatagridToString",
+  "module": "folder.utils",
+  "version": "0.0.1",
+  "fqn": "folder.utils/firewallRulesDatagridToString",
+  "script": "var full_str = \"Firewall rules request: \\n\"\n\nif(firewallDataGrid == 0){\n    System.log(\"Ingen Firewal regler.\");\n    return \"Ingen Firewal regler.\"\n}\n\nfor (var i = 0; i < firewallDataGrid.length; i++) { \n    var full_str = full_str + \"Source: \" + firewallDataGrid[i][\"Source\"] + \" Destination: \" + firewallDataGrid[i][\"Destination\"] + \" Port: \" + firewallDataGrid[i][\"Port\"] + \" \\n\";\n}\n\nreturn full_str\n",
+  "bundleHasContent": false,
+  "runtimeMemoryLimit": 0,
+  "runtimeTimeout": 0
+}

@@ -1,0 +1,358 @@
+{
+    "allowed-operations": "vef",
+    "api-version": "0.0.0",
+    "attrib": [
+        {
+            "description": "Variable for Token",
+            "name": "var_token",
+            "type": "SecureString",
+            "value": {
+                "secure-string": {
+                    "isPlainText": false,
+                    "value": ""
+                }
+            }
+        },
+        {
+            "description": "URL of the ssh",
+            "name": "var_sshurl",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "description": "",
+            "name": "var_config",
+            "type": "ConfigurationElement",
+            "value": {
+                "sdk-object": {
+                    "href": "https://domain.net:443/vco/api/catalog/System/ConfigurationElement/id/",
+                    "id": "id",
+                    "type": "ConfigurationElement"
+                }
+            }
+        },
+        {
+            "name": "var_vmUuid",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        }
+    ],
+    "display-name": "Service - Create SSH",
+    "editor-version": "2.0",
+    "id": "id",
+    "input": {
+        "param": [
+            {
+                "description": "OU of the VM, which this workflow will make an SSH for",
+                "name": "in_organizationalunit",
+                "type": "string"
+            },
+            {
+                "description": "DNS of VM, which this workflow will make an SSH for",
+                "name": "in_ip",
+                "type": "string"
+            },
+            {
+                "description": "Manager/manager of VM, which this workflow will make an SSH for",
+                "name": "in_manager",
+                "type": "string"
+            },
+            {
+                "name": "in_vmname",
+                "type": "string"
+            },
+            {
+                "name": "in_skip",
+                "type": "string"
+            }
+        ]
+    },
+    "object-name": "workflow:name=generic",
+    "output": {},
+    "position": {
+        "x": 50.0,
+        "y": 65.0
+    },
+    "restartMode": 1,
+    "resumeFromFailedMode": 0,
+    "root-name": "item9",
+    "version": "1.0.0",
+    "workflow-item": [
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item0",
+            "out-binding": {},
+            "position": {
+                "x": 830.0,
+                "y": 10.0
+            },
+            "type": "end"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "REST-POST-MakeNewEntrypoint",
+            "environment": {
+                "id": "id",
+                "name": "PythonRequests"
+            },
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_token",
+                        "name": "var_token",
+                        "type": "SecureString"
+                    },
+                    {
+                        "export-name": "var_sshurl",
+                        "name": "var_sshurl",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_manager",
+                        "name": "in_manager",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_organizationalunit",
+                        "name": "in_organizationalunit",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_vmname",
+                        "name": "in_vmname",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_ip",
+                        "name": "in_ip",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_vmUuid",
+                        "name": "var_vmUuid",
+                        "type": "string"
+                    }
+                ]
+            },
+            "name": "item3",
+            "out-binding": {},
+            "out-name": "item0",
+            "position": {
+                "x": 660.0,
+                "y": 20.0
+            },
+            "runtime": "environment:id",
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    \"\"\"
+                    .SYNOPSIS
+                        POST Request for SSH to make entrypoint.
+                    .DESCRIPTION
+                        POST Request for SSH to make entrypoint.
+                    .NOTES
+                        Author:         Sølve Holm
+                        Creation Date:  21-01-2025
+                    \"\"\"
+
+                    import json
+                    import requests
+
+                    def handler(context, inputs):
+                        
+                        #Import inputs
+                        Token = inputs['var_token']
+                        sshurl = inputs['var_sshurl']
+                        description = inputs['in_vmname']
+                        endpoint = inputs['in_ip']
+                        manager = inputs['in_manager']
+                        uuid = inputs['var_vmUuid']
+                        organizationalunitfullpath = inputs['in_organizationalunit']
+                        organizationalunit = organizationalunitfullpath.split(\"/\")[-1]
+
+                        # Make payload as dictionary and convert to json
+                        payloadDictionary = {
+                            \"organizationalunit\": organizationalunit,
+                            \"endpoint\": endpoint,
+                            \"description\": \"VM: \" + description,
+                            \"manager\": manager,
+                            \"uuid\": uuid
+                        }
+                        
+
+                        payload = json.dumps(payloadDictionary)
+
+                        # Make headers
+                        headers = {
+                            'Content-Type': 'application/json; charset=utf-8',
+                            'Authorization': f' {token}'
+                        }
+                        url = f\"{sshurl}/api/endpoints\"
+                        
+                        # Make the POST request and print response
+                        response = requests.request(\"POST\", url, headers=headers, data=payload)
+                        print(response.text)
+                        
+                        outputs = {
+                        \"status\": \"done\"
+                        }
+
+                        return outputs
+                        "
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "GetToken",
+            "in-binding": {},
+            "linked-workflow-id": "id",
+            "name": "item5",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_token",
+                        "name": "out_token",
+                        "type": "SecureString"
+                    }
+                ]
+            },
+            "out-name": "item7",
+            "position": {
+                "x": 400.0,
+                "y": 20.0
+            },
+            "type": "link"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "configitemGetVariables",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_config",
+                        "name": "var_config",
+                        "type": "ConfigurationElement"
+                    }
+                ]
+            },
+            "name": "item6",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_sshurl",
+                        "name": "var_sshurl",
+                        "type": "string"
+                    }
+                ]
+            },
+            "out-name": "item5",
+            "position": {
+                "x": 270.0,
+                "y": 20.0
+            },
+            "script": {
+                "encoded": false,
+                "value": "var_config.getAttributeWithKey(\"key\").value"
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Get VM Uuid from VM Name string",
+            "in-binding": {
+                "bind": [
+                    {
+                        "description": "VM Name as a string",
+                        "export-name": "in_vmname",
+                        "name": "in_vmstrname",
+                        "type": "string"
+                    }
+                ]
+            },
+            "linked-workflow-id": "id",
+            "name": "item7",
+            "out-binding": {
+                "bind": [
+                    {
+                        "description": "",
+                        "export-name": "var_vmUuid",
+                        "name": "vmUuid",
+                        "type": "string"
+                    }
+                ]
+            },
+            "out-name": "item3",
+            "position": {
+                "x": 530.0,
+                "y": 20.0
+            },
+            "script": {
+                "encoded": false,
+                "value": ""
+            },
+            "type": "link"
+        },
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "name": "item8",
+            "position": {
+                "x": 310.0,
+                "y": 65.0
+            },
+            "type": "end"
+        },
+        {
+            "alt-out-name": "item8",
+            "comparator": 0,
+            "description": "",
+            "display-name": "Skip Full Workflow?",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "in_skip",
+                        "name": "in_skip",
+                        "type": "string"
+                    }
+                ]
+            },
+            "name": "item9",
+            "out-binding": {},
+            "out-name": "item6",
+            "position": {
+                "x": 140.0,
+                "y": 65.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    if(in_skip.toLowerCase() == \"yes\"){
+                    System.log(\"SKIPPED WORKFLOW: \" + workflow.name);
+                    return false;
+                    } 
+
+                    return true;
+                    "
+
+            },
+            "type": "custom-condition"
+        }
+    ]
+}

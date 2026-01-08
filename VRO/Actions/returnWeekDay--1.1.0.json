@@ -1,0 +1,29 @@
+{
+  "href": "https://domain.net:443/vco/api/actions/id/",
+  "relations": {
+    "link": [
+      {
+        "href": "https://domain.net:443/vco/api/actions/utils.time/returnWeekDay/",
+        "rel": "alternate"
+      },
+      {
+        "href": "https://domain.net:443/vco/api/actions/id/permissions/",
+        "rel": "permissions"
+      },
+      {
+        "href": "https://domain.net:443/vco/api/actions/id/executions/",
+        "rel": "executions"
+      }
+    ]
+  },
+  "id": "id",
+  "output-type": "string",
+  "name": "returnWeekDay",
+  "module": "utils.time",
+  "version": "1.1.0",
+  "fqn": "utils.time/returnWeekDay",
+  "script": "// Script returns day of the week\n\n// import required action library\nvar dateUtil = System.getModule(\"utils.utils\").utilDate();\n\n/*\nfunction returnWeekDay(date){\n    // variable 'date' is type \"Date\" as returned by the method Date()\n    const daysOfTheWeek = [\"Sunday\", \"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\"];\n    System.debug(daysOfTheWeek);\n    return daysOfTheWeek[date.getDay()];\n};\n\nconst weekDay = returnWeekDay(new Date());\n\n*/\n\nSystem.log( dateUtil.returnWeekDayNumber( new Date() ) );\n\nconst weekDay = dateUtil.returnWeekDay( new Date() );\nSystem.log( weekDay );\n\nreturn weekDay;\n",
+  "bundleHasContent": false,
+  "runtimeMemoryLimit": 0,
+  "runtimeTimeout": 0
+}

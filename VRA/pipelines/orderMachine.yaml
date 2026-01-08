@@ -1,0 +1,323 @@
+---
+project: project1
+kind: PIPELINE
+name: order Machine
+icon: icon1
+enabled: true
+global: true
+description: ''
+concurrency: 1
+input:
+  financialInfo2: '1111111111'
+  domain: domain.net
+  financialManager: Person123
+  firewall: 'src: 10.10.10.10 dst: 9.9.9.9 port: 443 tcp/udp'
+  flavour: flavour1
+  manager: Person123
+  os: Ubuntu
+  folderName: ''
+  financialInfo1: '2222222222'
+ person123:
+    description: Input name of the VM
+    mandatory: true
+  flavour:
+    description: VM size
+    mandatory: true
+  os:
+    description: OS of deployed VM
+    mandatory: true
+  manager:
+    description: Input name of the manager.
+    mandatory: true
+  domain:
+    description: What domain should the VM be in?
+    mandatory: true
+  financialManager:
+    description: Input name of the person responsible for the economy for the server.
+    mandatory: true
+  financialInfo1:
+    description: financialInfo1
+    mandatory: true
+  owner:
+    description: Input name of owner.
+    mandatory: true
+  financialInfo2:
+    description: financialInfo2
+    mandatory: true
+  firewall:
+    description: 'FORMAT: source, destionation, port'
+    mandatory: true
+  folderName:
+    description: Name of folder
+    mandatory: true
+workspace:
+  type: DOCKER
+  endpoint: ''
+  image: ''
+  registry: ''
+  path: ''
+  autoCloneForTrigger: false
+  limits:
+    cpu: 1.0
+    memory: 512
+stageOrder:
+- InputValidation
+- GetHostname
+- GetSystemFolder
+- CreateSystemFolder
+- journal
+- CreateObject
+- GetIP
+- VMDeploy
+- SSHIntegrationCreateEntrypoint
+- Notification
+- Journal
+stages:
+  createObject:
+    taskOrder:
+    - createObject
+    - validate
+    tasks:
+      createObject:
+        type: Pipeline
+        preCondition: ${journal.validate.status} == "COMPLETED"
+        input:
+          pipeline: createObject
+          project: project1
+          inputProperties:
+            computer_name: ${GetHostname.getVMName.output.outputProperties.vmName}
+            folder_Name: ${input.folderName}
+      validate:
+        type: Condition
+        input: ${OK" && ${createObject.createObjecOtatus}=="COMPLETED"
+  GetIP:
+    taskOrder:
+    - getIp
+    - validate
+    tasks:
+      getIp:
+        type: Pipeline
+        preCondition: |
+          ${createObject.validate.status} == "COMPLETED"
+        input:
+          pipeline: getIPAMIP
+          project: project1
+          inputProperties:
+            hostName: ${GetHostname.getVMName.output.outputProperties.vmName}
+            mac: 00:00:00:00:00:00
+            network_view: default
+            subnet: 10.10.10.0/24
+      validate:
+        type: Condition
+        input:
+          condition: |-
+            ${GetIP.getIp.output.outputProperties.newIP} != "" &&
+            ${GetIP.getIp.status} == "COMPLETED"
+  Journal:
+    taskOrder:
+    - AddJournalNoteVmReady,AddJournalNoteVmFailed
+    tasks:
+      AddJournalNoteVmReady:
+        type: Pipeline
+        preCondition: ${VMDeploy.deployTemplate.status} == "COMPLETED"
+        input:
+          pipeline: Journal
+          project: project1
+          inputProperties:
+            journal1: journal1
+            journal1_url: journal1.net
+            JournalNoteText: VM deployed.
+            TicketID: ${journal.createFolderRequest.output.outputProperties.ticket_nr}
+      AddJournalNoteVmFailed:
+        type: Pipeline
+        preCondition: ${VMDeploy.deployTemplate.status} == "FAILED"
+        input:
+          pipeline: Journal
+          project: project1
+          inputProperties:
+            journal1: journal1
+            journal1_url: journal1.net
+            JournalNoteText: VM deployment failed.
+            TicketID: ${journal.createFolderRequest.output.outputProperties.ticket_nr}
+  GetSystemFolder:
+    taskOrder:
+    - checkFolder
+    - validate
+    tasks:
+      checkFolder:
+        type: Pipeline
+        preCondition: ${GetHostname.validate.status} == "COMPLETED"
+        input:
+          pipeline: CheckSystemFolder
+          project: project1
+          inputProperties:
+            folder_Name: ${input.folderName}
+      validate:
+        type: Condition
+        input: ${OK" && ${GetSystemFolder.checkFolder.status}=="COMPLETED"
+  journal:
+    taskOrder:
+    - GetIDInfo
+    - createFolderRequest
+    - validate
+    - AddJournalNoteVmReady
+    tasks:
+      GetIDInfo:
+        type: Pipeline
+        preCondition: ${CreateSystemFolder.validate.status} == "COMPLETED"
+        input:
+          pipeline: GetIDInfo
+          project: project1
+          inputProperties:
+            UserName: ${requestBy}
+      createFolderRequest:
+        type: Pipeline
+        ignoreFailure: true
+        preCondition: |-
+          ${journal.GetIDInfo.status} == "COMPLETED" &&
+          ${journal.GetIDInfo.output.outputProperties.Status} == "OK"
+        input:
+          pipeline: createFolderRequest
+          project: project1
+          inputProperties:
+            action: CreateVM
+            journal1: journal1
+            journal1_url: journal1.net
+            employee_id: ${journal.GetIDInfo.output.outputProperties.iDInfo}
+            ticketDescInputArray: ('${GetHostname.getVMName.output.outputProperties.vmName}', '${input.os}',
+              '${input.flavour}', '${input.folderName}', '${input.firewall}')
+      AddJournalNoteVmReady:
+        type: Pipeline
+        input:
+          pipeline: Journal
+          project: project1
+          inputProperties:
+            journal1: journal1
+            journal1_url: journal1.net
+            JournalNoteText: Wait for VM to be deployed.
+            TicketID: ${journal.createFolderRequest.output.outputProperties.ticket_nr}
+      validate:
+        type: Condition
+        input:
+          condition: |-
+            ${journal.createFolderRequest.status} == "COMPLETED" &&
+            ${journal.createFolderRequest.output.outputProperties.Status} == "OK"
+  InputValidation:
+    taskOrder:
+    - validateInput
+    tasks:
+      validateInput:
+        type: Condition
+        input:
+          condition: |-
+            ${input.financialInfo2} != "" &&
+            ${input.domain} != "" &&
+            ${input.financialManager} != "" &&
+            ${input.flavour} != "" &&
+            ${input.manager} != "" &&
+            ${input.os} != "" &&
+            ${input.folderName} != "" &&
+            ${input.financialInfo1} != ""             ${:
+    taskOrder:
+    - SSHIntegrationCreateEntrypoint
+    - validate
+    tasks:
+      SSHIntegrationCreateEntrypoint:
+        type: Pipeline
+        preCondition: |-
+          ${VMDeploy.status} == "COMPLETED" &&
+          (${input.os} == "Ubuntu" || ${input.os} == "ubuntu")
+        input:
+          pipeline: SSHIntegrationCreateEntrypoint
+          project: project1
+          inputProperties:
+            endpoint: ${VMDeploy.deployTemplate.output.deploymentDetails.name}
+            manager: ${journal.GetIDInfo.output.outputProperties.iDInfo}
+            organizationalunit: ${input.folderName}
+      validate:
+        type: Condition
+        input: "${COMPLETED\" || \n${SSHIntegrationCreateEntrypoint.SSHIntegrationCreateEntrypoint.status}\
+            \ == \"SKIPPED\""
+  GetHostname:
+    taskOrder:
+    - getVMName
+    - ValidateVmName
+    - validate
+    tasks:
+      getVMName:
+        type: Pipeline
+        preCondition: ${InputValidation.validateInput.status} == "COMPLETED"
+        input:
+          pipeline: returnHostname
+          project: project1
+          inputProperties:
+            vmName: ${input.vmName}
+      ValidateVmName:
+        type: Pipeline
+        preCondition: "${GetHostname.getVMName.status} == \"COMPLETED\" &&\n${GetHostname.getVMName.output.outputProperties.vmName}\
+          \ !=\"\" "
+        input:
+          pipeline: CheckHostname
+          project: project1
+          inputProperties:
+            computer_name: ${GetHostname.getVMName.output.outputProperties.vmName}
+      validate:
+        type: Condition
+        input:
+          condition: ${GetHostname.ValidateVmName.output.outputProperties.Status}=="OK" && ${GetHostname.ValidateVmName.status}=="COMPLETED"
+  VMDeploy:
+    taskOrder:
+    - deployTemplate
+    tasks:
+      deployTemplate:
+        type: Blueprint
+        preCondition: ${GetIP.validate.status} == "COMPLETED"
+        input:
+          action: CreateDeployment
+          project: ${GetHostname.getVMName.output.outputProperties.vmName}.${input.domain}
+          blueprint: Ubuntu
+          version: 1
+          parameters:
+            vmName: ${GetHostname.getVMName.output.outputProperties.vmName}.${input.domain}
+            flavour: ${input.flavour}
+            os: ${input.os}
+            manager: ${input.manager}
+            journalTicketNr: ${journal.createFolderRequest.output.outputProperties.ticket_nr}
+            financialManager: ${input.financialManager}
+            domain: ${input.domain}
+            IP: ${GetIP.getIp.output.outputProperties.newIP}
+            financialInfo1: ${input.financialInfo1}
+            owner: ${input.owner}
+            financialInfo2: ${input.financialInfo2}
+            folderName: ${input.folderName}
+  Notification:
+    taskOrder:
+        FirewallInfo: ${VMDeploy.deployTemplate.status} == "COMPLETED"
+        input:
+          pipeline: Notification
+          project: project1
+          inputProperties:
+            text: ${input.firewall}
+            title: 'Firewall for new VM: ${GetHostname.getVMName.output.outputProperties.vmName}'
+  CreateSystemFolder:
+    taskOrder:
+    - CreateFolder
+    - validate
+    tasks:
+      CreateFolder:
+        type: Pipeline
+        preCondition: |-
+          ${GetSystemFolder.validate.status} == "COMPLETED" &&
+          ${GetSystemFolder.checkFolder.output.outputProperties.OUstatus} == "SYSTEMFOLDER_NOT_EXISTS"
+        input:
+          pipeline: createSystemFolder
+          project: project1
+          inputProperties:
+            description: Created for new VM
+            managers: '${input.manager} '
+            systemAnsvarlig: ${input.manager}
+            systemOUName: ${input.folderName}
+      validate:
+        type: Condition
+        input: |- "COMPLETED" ||
+            ${CreateSystemFolder.CreateFolder.status} == "SKIPPED"

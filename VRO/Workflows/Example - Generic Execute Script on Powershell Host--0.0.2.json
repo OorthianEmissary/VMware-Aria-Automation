@@ -1,0 +1,332 @@
+{
+    "allowed-operations": "vef",
+    "api-version": "0.0.0",
+    "attrib": [
+        {
+            "name": "var_scriptParameters",
+            "type": "Array/string"
+        },
+        {
+            "description": "Example: C:\\Scripts\\folder\\script.script",
+            "name": "var_scriptPath",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "description": "Leave BLANK for Default",
+            "name": "var_scriptHostName",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_output",
+            "type": "Array/string"
+        },
+        {
+            "name": "var_config",
+            "type": "ConfigurationElement",
+            "value": {
+                "sdk-object": {
+                    "href": "https://domain.net:443/vco/api/catalog/System/ConfigurationElement/id/",
+                    "id": "id",
+                    "type": "ConfigurationElement"
+                }
+            }
+        },
+        {
+            "name": "var_configCategory",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": "cat1 OR cat2"
+                }
+            }
+        }
+    ],
+    "description": "",
+    "display-name": "Example - Generic Execute Script on script Host",
+    "editor-version": "2.0",
+    "id": "id",
+    "input": {
+        "param": [
+            {
+                "description": "Employee ID, with or without \"\"",
+                "name": "employeeId",
+                "type": "string"
+            }
+        ]
+    },
+    "object-name": "workflow:name=generic",
+    "output": {
+        "param": [
+            {
+                "name": "statusCode",
+                "type": "string"
+            },
+            {
+                "name": "id",
+                "type": "string"
+            }
+        ]
+    },
+    "position": {
+        "x": 50.0,
+        "y": 65.0
+    },
+    "restartMode": 1,
+    "resumeFromFailedMode": 0,
+    "root-name": "item9",
+    "version": "0.0.2",
+    "workflow-item": [
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item0",
+            "out-binding": {},
+            "position": {
+                "x": 830.0,
+                "y": 10.0
+            },
+            "type": "end"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Create Script Parameters",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "employeeId",
+                        "name": "employeeId",
+                        "type": "string"
+                    }
+                ]
+            },
+            "name": "item1",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_scriptParameters",
+                        "name": "var_scriptParameters",
+                        "type": "Array/string"
+                    }
+                ]
+            },
+            "out-name": "item3",
+            "position": {
+                "x": 270.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    // Creating script parameters
+                    var arrParams = [];
+                    arrParams.push( \"VALUE1\" );
+                    arrParams.push( \"VALUE2\" );
+                    arrParams.push( \"VALUE3\" );
+
+                    var_scriptParameters = arrParams;
+                    "
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Execute External Script on a script Host",
+            "in-binding": {
+                "bind": [
+                    {
+                        "description": "Path to script",
+                        "export-name": "var_scriptPath",
+                        "name": "scriptPath",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_scriptHostName",
+                        "name": "in_scriptHostName",
+                        "type": "string"
+                    },
+                    {
+                        "description": "List of parameters values - in order of the script",
+                        "export-name": "var_scriptParameters",
+                        "name": "parameters",
+                        "type": "Array/string"
+                    },
+                    {
+                        "description": "There's currently two categories as of writing: \"cat1\" and \"cat2\". The rest is handled in configItem AU",
+                        "export-name": "var_configCategory",
+                        "name": "in_configCategory",
+                        "type": "string"
+                    }
+                ]
+            },
+            "linked-workflow-id": "id",
+            "name": "item3",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_output",
+                        "name": "output",
+                        "type": "Array/string"
+                    }
+                ]
+            },
+            "out-name": "item6",
+            "position": {
+                "x": 400.0,
+                "y": 75.0
+            },
+            "type": "link"
+        },
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item5",
+            "out-binding": {},
+            "position": {
+                "x": 830.0,
+                "y": 65.0
+            },
+            "type": "end"
+        },
+        {
+            "alt-out-name": "item8",
+            "comparator": 0,
+            "description": "",
+            "display-name": "Validate Status",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_output",
+                        "name": "var_output",
+                        "type": "Array/string"
+                    }
+                ]
+            },
+            "name": "item6",
+            "out-binding": {},
+            "out-name": "item7",
+            "position": {
+                "x": 530.0,
+                "y": 65.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    if ( var_output[0] == \"OK\" ) {
+                        return true;
+                    }
+
+                    return false;
+                    "
+            },
+            "type": "custom-condition"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Set output",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_output",
+                        "name": "var_output",
+                        "type": "Array/string"
+                    }
+                ]
+            },
+            "name": "item7",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "statusCode",
+                        "name": "statusCode",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "id",
+                        "name": "id",
+                        "type": "string"
+                    }
+                ]
+            },
+            "out-name": "item0",
+            "position": {
+                "x": 660.0,
+                "y": 20.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    if ( var_output[0] == \"OK\" ) {
+                        statusCode   = \"200\";
+                        id = var_output[1];
+                    }
+                    else {
+                        throw new Error('var_output[0] != \"OK\", as expected');
+                    }
+                    "
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Throw ERROR",
+            "in-binding": {},
+            "name": "item8",
+            "out-binding": {},
+            "out-name": "item5",
+            "position": {
+                "x": 660.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": "throw new Error('var_output[0] != \"OK\", as was expected');"
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "configitem Get Variables",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_config",
+                        "name": "var_config",
+                        "type": "ConfigurationElement"
+                    }
+                ]
+            },
+            "name": "item9",
+            "out-binding": {},
+            "out-name": "item1",
+            "position": {
+                "x": 140.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": "var_OUTPUT = var_config.getAttributeWithKey(\"VALUE\").value"
+            },
+            "type": "task"
+        }
+    ]
+}

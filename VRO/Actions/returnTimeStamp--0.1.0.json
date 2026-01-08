@@ -1,0 +1,30 @@
+{
+  "href": "https://domain.net:443/vco/api/actions/id/",
+  "relations": {
+    "link": [
+      {
+        "href": "https://domain.net:443/vco/api/actions/utils.utils/returnTimeStamp/",
+        "rel": "alternate"
+      },
+      {
+        "href": "https://domain.net:443/vco/api/actions/id/permissions/",
+        "rel": "permissions"
+      },
+      {
+        "href": "https://domain.net:443/vco/api/actions/id/executions/",
+        "rel": "executions"
+      }
+    ]
+  },
+  "id": "id",
+  "output-type": "string",
+  "name": "returnTimeStamp",
+  "module": "utils.utils",
+  "version": "0.1.0",
+  "fqn": "utils.utils/returnTimeStamp",
+  "script": "function Handler($context, $inputs) {\n    $myDate = Get-Date -Format \"yyyy-MM-dd HH:mm:ss\" #US-FORMAT\n    write-host $myDate\n    return $myDate\n}",
+  "bundleHasContent": false,
+  "runtime": "powershell:7.4",
+  "runtimeMemoryLimit": 0,
+  "runtimeTimeout": 0
+}

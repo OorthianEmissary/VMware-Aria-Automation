@@ -1,0 +1,29 @@
+{
+  "href": "https://domain.net:443/vco/api/actions/id/",
+  "relations": {
+    "link": [
+      {
+        "href": "https://domain.net:443/vco/api/actions/utils.time/testTimeStamp/",
+        "rel": "alternate"
+      },
+      {
+        "href": "https://domain.net:443/vco/api/actions/id/permissions/",
+        "rel": "permissions"
+      },
+      {
+        "href": "https://domain.net:443/vco/api/actions/id/executions/",
+        "rel": "executions"
+      }
+    ]
+  },
+  "id": "id",
+  "output-type": "string",
+  "name": "testTimeStamp",
+  "module": "utils.time",
+  "version": "0.0.1",
+  "fqn": "utils.time/testTimeStamp",
+  "script": "var now = new Date();\n\nSystem.log( now );\nSystem.log( now.toString().split(\" \")[4] );\n\nSystem.log( now.toISOString() );\n\nSystem.log( now.toISOString().substring( 0,10 ) );\nSystem.log( ( now.toISOString().substring( 0,19 ) ).replace(\":\",\"-\") );\nSystem.log( ( now.toISOString().substring( 0,23 ) ).replace(\":\",\"-\") );\n \nSystem.log( now.toISOString().replace(\":\",\"-\").replace(\":\",\"-\").substring( 0,19 ) );\n\nSystem.log( now.toISOString().split(\"T\")[1] );\n",
+  "bundleHasContent": false,
+  "runtimeMemoryLimit": 0,
+  "runtimeTimeout": 0
+}

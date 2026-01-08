@@ -1,0 +1,36 @@
+{
+  "href": "https://domain.net:443/vco/api/actions/id/",
+  "relations": {
+    "link": [
+      {
+        "href": "https://domain.net:443/vco/api/actions/utils.base64/returnBase64JavascriptDecode/",
+        "rel": "alternate"
+      },
+      {
+        "href": "https://domain.net:443/vco/api/actions/id/permissions/",
+        "rel": "permissions"
+      },
+      {
+        "href": "https://domain.net:443/vco/api/actions/id/executions/",
+        "rel": "executions"
+      }
+    ]
+  },
+  "id": "id",
+  "input-parameters": [
+    {
+      "description": "",
+      "type": "string",
+      "name": "inputString"
+    }
+  ],
+  "output-type": "SecureString",
+  "name": "returnBase64JavascriptDecode",
+  "module": "utils.base64",
+  "version": "0.0.0",
+  "fqn": "utils.base64/returnBase64JavascriptDecode",
+  "script": "var base64DecordingJavascript = System.getModule(\"utils.base64\").utilBase64EncordingJavascript();\nreturn base64DeordingJavascript.decode( inputString );\n",
+  "bundleHasContent": false,
+  "runtimeMemoryLimit": 0,
+  "runtimeTimeout": 0
+}

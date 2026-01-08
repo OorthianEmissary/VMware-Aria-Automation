@@ -1,0 +1,427 @@
+{
+    "allowed-operations": "vef",
+    "api-version": "0.0.0",
+    "attrib": [
+        {
+            "name": "var_vRAHost",
+            "type": "VRA:Host"
+        },
+        {
+            "name": "var_config",
+            "type": "ConfigurationElement",
+            "value": {
+                "sdk-object": {
+                    "href": "https://domain.net:443/vco/api/catalog/System/ConfigurationElement/id/",
+                    "id": "id",
+                    "type": "ConfigurationElement"
+                }
+            }
+        },
+        {
+            "description": "Target project is \"folder\"",
+            "name": "var_projectId",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": "id"
+                }
+            }
+        },
+        {
+            "name": "var_UbuntuTargetVersion",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_ubuntuBlueprintID",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        }
+    ],
+    "display-name": "Component - Execute Assembler Blueprint - Ubuntu",
+    "editor-version": "2.0",
+    "id": "id",
+    "input": {
+        "param": [
+            {
+                "name": "in_reason",
+                "type": "string"
+            },
+            {
+                "name": "in_description",
+                "type": "string"
+            },
+            {
+                "name": "in_vmName",
+                "type": "string"
+            },
+            {
+                "name": "in_flavour",
+                "type": "string"
+            },
+            {
+                "name": "in_os",
+                "type": "string"
+            },
+            {
+                "name": "in_ouFolderName",
+                "type": "string"
+            },
+            {
+                "name": "in_manager",
+                "type": "string"
+            },
+            {
+                "name": "in_Owner",
+                "type": "string"
+            },
+            {
+                "name": "in_financialManager",
+                "type": "string"
+            },
+            {
+                "name": "in_financialinfo1",
+                "type": "string"
+            },
+            {
+                "name": "in_financialinfo2",
+                "type": "string"
+            },
+            {
+                "name": "in_domain",
+                "type": "string"
+            },
+            {
+                "name": "in_IP",
+                "type": "string"
+            },
+            {
+                "name": "in_ticketNr",
+                "type": "string"
+            }
+        ]
+    },
+    "object-name": "workflow:name=generic",
+    "output": {},
+    "position": {
+        "x": 50.0,
+        "y": 65.0
+    },
+    "restartMode": 1,
+    "resumeFromFailedMode": 0,
+    "root-name": "item6",
+    "version": "1.0.0",
+    "workflow-item": [
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item0",
+            "out-binding": {},
+            "position": {
+                "x": 700.0,
+                "y": 10.0
+            },
+            "type": "end"
+        },
+        {
+            "business-status": "",
+            "comparator": 0,
+            "description": "",
+            "display-name": "API Rest Call POST - Assembler - ubuntu",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_vRAHost",
+                        "name": "var_vRAHost",
+                        "type": "VRA:Host"
+                    },
+                    {
+                        "export-name": "in_reason",
+                        "name": "in_reason",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_description",
+                        "name": "in_description",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_UbuntuTargetVersion",
+                        "name": "var_UbuntuTargetVersion",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_vmName",
+                        "name": "in_vmName",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_projectId",
+                        "name": "var_projectId",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_flavour",
+                        "name": "in_flavour",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_os",
+                        "name": "in_os",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_ouFolderName",
+                        "name": "in_ouFolderName",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_manager",
+                        "name": "in_manager",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_Owner",
+                        "name": "in_Owner",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_financialManager",
+                        "name": "in_financialManager",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_financialinfo1",
+                        "name": "in_financialinfo1",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_financialinfo2",
+                        "name": "in_financialinfo2",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_domain",
+                        "name": "in_domain",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_IP",
+                        "name": "in_IP",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_ticketNr",
+                        "name": "in_ticketNr",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_ubuntuBlueprintID",
+                        "name": "var_ubuntuBlueprintID",
+                        "type": "string"
+                    }
+                ]
+            },
+            "name": "item1",
+            "out-binding": {},
+            "out-name": "item0",
+            "position": {
+                "x": 530.0,
+                "y": 20.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    /*
+                    .SYNOPSIS
+                        Makes a call to the assembler blueprint for the ubuntu
+                    .DESCRIPTION
+                        Makes a call to the assembler blueprint for the ubuntu
+                    .AUTHOR
+                        Sølve Holm
+                        based on code by : Anders Mikkelsen (github.com/amikkelsendk)
+                    .CREATION DATE
+                        25-09-20:16.15
+                    */
+                    
+                    var payload = '{ \\
+                    \"projectId\": \"' + var_projectId + '\", \\
+                    \"deploymentId\": \"\", \\
+                    \"deploymentName\": \"' + in_vmName + '\", \\
+                    \"reason\": \"' + in_reason + '\", \\
+                    \"description\": \"' + in_description + '\", \\
+                    \"plan\": false, \\
+                    \"destroy\": false, \\
+                    \"ignoreDeleteFailures\": false, \\
+                    \"simulate\": false, \\
+                    \"blueprintId\": \"' + var_ubuntuBlueprintID + '\", \\
+                    \"blueprintVersion\": \"' + var_UbuntuTargetVersion + '\", \\
+                    \"content\": \"\", \\
+                    \"inputs\": { \\
+                        \"vmName\": \"' + in_vmName + '\", \\
+                        \"flavour\": \"' + in_flavour + '\", \\
+                        \"os\": \"' + in_os + '\", \\
+                        \"ouFolderName\": \"' + in_ouFolderName + '\", \\
+                        \"manager\": \"' + in_manager + '\", \\
+                        \"owner\": \"' + in_Owner + '\", \\
+                        \"financialManager\": \"' + in_financialManager + '\", \\
+                        \"financialinfo1\": \"' + in_financialinfo1 + '\", \\
+                        \"financialinfo2\": \"' + in_financialinfo2 + '\", \\
+                        \"domain\": \"' + in_domain + '\", \\
+                        \"IP\": \"' + in_IP + '\", \\
+                        \"ticketNr\": \"' + in_ticketNr + '\" \\
+                    } \\
+                    }' 
+                    
+                    REST: execute pipeline
+                    try {
+                        var restClient = var_vRAHost.createRestClient();
+                        var request = restClient.createRequest( \"POST\", \"/blueprint/api/blueprint-requests\", payload );
+                        var response = restClient.execute( request );
+                    
+                        System.log(\"******Rest Response***** \");
+                        var statusCode = response.statusCode;
+                        System.log( \"Status code: \" + statusCode );
+                    
+                        if ( response.statusCode==202 ) {
+                            System.log( \"Request accepted\" );
+                            //System.log(response.somethingsomething request ID)
+                            System.log( \"Follow/view assembler execution status in vRA\" );
+                        }
+                    }
+                    catch ( err ) {
+                        System.log ( \"***** Failed to run request *****\" );
+                        System.error( err );
+                    }
+                    "
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item3",
+            "out-binding": {},
+            "position": {
+                "x": 570.0,
+                "y": 65.0
+            },
+            "type": "end"
+        },
+        {
+            "alt-out-name": "item3",
+            "comparator": 0,
+            "description": "",
+            "display-name": "Check - Received VRA Host?",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_vRAHost",
+                        "name": "var_vRAHost",
+                        "type": "VRA:Host"
+                    }
+                ]
+            },
+            "name": "item4",
+            "out-binding": {},
+            "out-name": "item1",
+            "position": {
+                "x": 400.0,
+                "y": 65.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                "
+                if(!var_vRAHost){
+                    return false;
+                };
+                
+                return true;
+                "
+            },
+            "type": "custom-condition"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Return VRA Host",
+            "in-binding": {},
+            "linked-workflow-id": "id",
+            "name": "item5",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_vRAHost",
+                        "name": "out_vrahost",
+                        "type": "VRA:Host"
+                    }
+                ]
+            },
+            "out-name": "item4",
+            "position": {
+                "x": 270.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": ""
+            },
+            "type": "link"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Get variables from Configitem",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_config",
+                        "name": "var_config",
+                        "type": "ConfigurationElement"
+                    }
+                ]
+            },
+            "name": "item6",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_UbuntuTargetVersion",
+                        "name": "var_UbuntuTargetVersion",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_ubuntuBlueprintID",
+                        "name": "var_ubuntuBlueprintID",
+                        "type": "string"
+                    }
+                ]
+            },
+            "out-name": "item5",
+            "position": {
+                "x": 140.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    var_UbuntuTargetVersion = var_config.getAttributeWithKey(\"Ubuntu2404TargetVersion\").value;
+                    var_ubuntuBlueprintID = var_config.getAttributeWithKey(\"ubuntu2404BlueprintID\").value;
+                    "
+            },
+            "type": "task"
+        }
+    ]
+}

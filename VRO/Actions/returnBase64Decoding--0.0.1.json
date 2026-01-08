@@ -1,0 +1,37 @@
+{
+  "href": "https://domain.net:443/vco/api/actions/id/",
+  "relations": {
+    "link": [
+      {
+        "href": "https://domain.net:443/vco/api/actions/utils.base64/returnBase64Decoding/",
+        "rel": "alternate"
+      },
+      {
+        "href": "https://domain.net:443/vco/api/actions/id/permissions/",
+        "rel": "permissions"
+      },
+      {
+        "href": "https://domain.net:443/vco/api/actions/id/executions/",
+        "rel": "executions"
+      }
+    ]
+  },
+  "id": "id",
+  "input-parameters": [
+    {
+      "description": "",
+      "type": "string",
+      "name": "string"
+    }
+  ],
+  "output-type": "string",
+  "name": "returnBase64Decoding",
+  "module": "utils.base64",
+  "version": "0.0.1",
+  "fqn": "utils.base64/returnBase64Decoding",
+  "script": "function Handler($context, $inputs) {\n    $decodedString = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String(\"$($inputs.string)\"))\n    return $decodedString\n}\n",
+  "bundleHasContent": false,
+  "runtime": "powershell:7.4",
+  "runtimeMemoryLimit": 0,
+  "runtimeTimeout": 0
+}

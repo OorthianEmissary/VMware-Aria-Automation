@@ -1,0 +1,370 @@
+{
+    "allowed-operations": "vef",
+    "api-version": "0.0.0",
+    "attrib": [
+        {
+            "name": "var_config",
+            "type": "ConfigurationElement",
+            "value": {
+                "sdk-object": {
+                    "href": "https://domain.net:443/vco/api/catalog/System/ConfigurationElement/id/",
+                    "id": "id",
+                    "type": "ConfigurationElement"
+                }
+            }
+        },
+        {
+            "name": "var_exampleConfigurationVariable",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "description": "use this as input for skipping called workflows within this workflow, as the input for in_skip",
+            "name": "var_skipYes",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": "yes"
+                }
+            }
+        },
+        {
+            "description": "use this as input for NOT skipping called workflows within this workflow, as the input for in_skip",
+            "name": "var_skipNo",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": "no"
+                }
+            }
+        },
+        {
+            "name": "var_titlestring",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_textstring",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        }
+    ],
+    "description": "",
+    "display-name": "Wrapper - VM Deployment Notification - Request Virtual Machine",
+    "editor-version": "2.0",
+    "id": "id",
+    "input": {
+        "param": [
+            {
+                "description": "Set to yes to fully skip workflow. ",
+                "name": "in_skip",
+                "type": "string"
+            },
+            {
+                "name": "in_vmName",
+                "type": "string"
+            },
+            {
+                "description": "Was the virtual machine deployment successful?",
+                "name": "in_vmDeploymentSuccesful",
+                "type": "string"
+            },
+            {
+                "name": "in_ouFolderName",
+                "type": "string"
+            },
+            {
+                "name": "in_itsmTicketNumber",
+                "type": "string"
+            },
+            {
+                "name": "in_os",
+                "type": "string"
+            },
+            {
+                "name": "in_flavour",
+                "type": "string"
+            },
+            {
+                "name": "in_itsmTicketNo",
+                "type": "string"
+            }
+        ]
+    },
+    "object-name": "workflow:name=generic",
+    "output": {
+        "param": [
+            {
+                "name": "var_vRAHostFromConfigItem",
+                "type": "VRA:Host"
+            }
+        ]
+    },
+    "position": {
+        "x": 50.0,
+        "y": 65.0
+    },
+    "restartMode": 1,
+    "resumeFromFailedMode": 0,
+    "root-name": "item3",
+    "version": "1.0.0",
+    "workflow-item": [
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item0",
+            "out-binding": {},
+            "position": {
+                "x": 830.0,
+                "y": 10.0
+            },
+            "type": "end"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Concatenate Title and Text",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "in_vmName",
+                        "name": "in_vmName",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_os",
+                        "name": "in_os",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_flavour",
+                        "name": "in_flavour",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_itsmTicketNo",
+                        "name": "in_itsmTicketNo",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_ouFolderName",
+                        "name": "in_ouFolderName",
+                        "type": "string"
+                    }
+                ]
+            },
+            "name": "item1",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_titlestring",
+                        "name": "var_titlestring",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_textstring",
+                        "name": "var_textstring",
+                        "type": "string"
+                    }
+                ]
+            },
+            "out-name": "item5",
+            "position": {
+                "x": 530.0,
+                "y": 20.0
+            },
+            "script": {
+                "encoded": false,
+                "value": "var_titlestring = \"Aria Automation - VM Deployed: \" + in_vmName; 
+var_textstring = \"VM Name: \" + in_vmName + \" <br>\" + \"Folder: \" + in_ouFolderName + \" <br>\" +  \"OS: \" + in_os + \" <br>\" + \"Flavour: \" + in_flavour + \" <br>\" + \"ITSM: \" + in_itsmTicketNo + \" <br>\";"
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item2",
+            "out-binding": {},
+            "position": {
+                "x": 310.0,
+                "y": 10.0
+            },
+            "type": "end"
+        },
+        {
+            "alt-out-name": "item2",
+            "comparator": 0,
+            "description": "",
+            "display-name": "Skip Full Workflow?",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "in_skip",
+                        "name": "in_skip",
+                        "type": "string"
+                    }
+                ]
+            },
+            "name": "item3",
+            "out-binding": {},
+            "out-name": "item7",
+            "position": {
+                "x": 140.0,
+                "y": 65.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    if(in_skip.toLowerCase() == \"yes\"){
+                    System.log(\"SKIPPED WORKFLOW: \" + workflow.name);
+                    return false;
+                    } 
+
+                    return true;
+                    "
+
+            },
+            "type": "custom-condition"
+        },
+        {
+            "business-status": "",
+            "comparator": 0,
+            "description": "",
+            "display-name": "Get ConfigurationItem Variables",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_config",
+                        "name": "var_config",
+                        "type": "ConfigurationElement"
+                    }
+                ]
+            },
+            "name": "item4",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_exampleConfigurationVariable",
+                        "name": "var_exampleConfigurationVariable",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_vRAHostFromConfigItem",
+                        "name": "var_vRAHostFromConfigItem",
+                        "type": "VRA:Host"
+                    }
+                ]
+            },
+            "out-name": "item1",
+            "position": {
+                "x": 400.0,
+                "y": 20.0
+            },
+            "script": {
+                "encoded": false,
+                "value": ""
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Component - Send Microsoft Teams Notification",
+            "in-binding": {
+                "bind": [
+                    {
+                        "description": "use <br> and other HTML formatting for string formatting.",
+                        "export-name": "var_textstring",
+                        "name": "in_text",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_titlestring",
+                        "name": "in_title",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_skip",
+                        "name": "in_skip",
+                        "type": "string"
+                    }
+                ]
+            },
+            "linked-workflow-id": "id",
+            "name": "item5",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "",
+                        "name": "out_statusCode",
+                        "type": "string"
+                    }
+                ]
+            },
+            "out-name": "item0",
+            "position": {
+                "x": 660.0,
+                "y": 20.0
+            },
+            "script": {
+                "encoded": false,
+                "value": ""
+            },
+            "type": "link"
+        },
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item6",
+            "out-binding": {},
+            "position": {
+                "x": 440.0,
+                "y": 65.0
+            },
+            "type": "end"
+        },
+        {
+            "alt-out-name": "item6",
+            "comparator": 0,
+            "description": "",
+            "display-name": "Deployment successful? (WIP) - Skipped",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "in_vmDeploymentSuccesful",
+                        "name": "in_vmDeploymentSuccesful",
+                        "type": "string"
+                    }
+                ]
+            },
+            "name": "item7",
+            "out-binding": {},
+            "out-name": "item4",
+            "position": {
+                "x": 270.0,
+                "y": 65.0
+            },
+            "script": {
+                "encoded": false,
+                "value": "return true;"
+            },
+            "type": "custom-condition"
+        }
+    ]
+}

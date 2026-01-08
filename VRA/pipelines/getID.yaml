@@ -1,0 +1,63 @@
+---
+project: project1
+kind: PIPELINE
+name: GetInfoID
+icon: organization,left, is-pink
+enabled: true
+global: false
+description: Get ID from Account Name
+concurrency: 10
+input:
+  UserName: ''
+_inputMeta:
+  UserName:
+    description: User Name
+    mandatory: true
+output:
+  ID: ${Execute.GetInfoID.output.logs[3]}
+  Status: ${Execute.GetInfoID.output.logs[2]}
+workspace:
+  type: DOCKER
+  endpoint: ''
+  image: ''
+  registry: ''
+  path: ''
+  autoCloneForTrigger: false
+  limits:
+    cpu: 1.0
+    memory: 512
+stageOrder:
+- Execute
+stages:
+  Execute:
+    taskOrder:
+    - GetInfoID
+    tasks:
+      GetInfoID:
+        type: PowerShell
+        preCondition: ${input.UserName} != ""
+        input:
+          script: |-
+            $creds = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $userName, ($password | ConvertTo-SecureString -AsPlainText -Force )
+
+            $parameters = @{
+                ComputerName      = "localhost"
+                Credential        = $creds
+                ScriptBlock       = { script.exe -File "c:\folder1\info\GetInfoID.ps1" $args[0] }
+                ArgumentList      = $Accountname
+                ConfigurationName = $ConfName
+            }
+            Invoke-Command @parameters
+          username: ${var.username1}
+          password: ${var.username1-password}
+          useTLS: true
+          trustCert: true
+          host: ${var.host1}
+          workingDirectory: ''
+          arguments: [
+            ]
+          environmentVariables:
+            userName: ${var.username1}
+            password: ${var.username1-password}
+            Accountname: ${input.UserName}
+            ConfName: ConfName2

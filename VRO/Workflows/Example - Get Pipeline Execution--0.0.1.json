@@ -1,0 +1,222 @@
+{
+  "display-name": "Example - Get Pipeline Execution",
+  "position": {
+    "y": 65,
+    "x": 50
+  },
+  "input": {
+    "param": [
+      {
+        "name": "in_pipelineExecutionID",
+        "type": "string"
+      }
+    ]
+  },
+  "output": {
+    "param": [
+      {
+        "name": "out_responseOutGetPipelineExecution",
+        "type": "Properties"
+      }
+    ]
+  },
+  "attrib": [
+    {
+      "type": "VRA:Host",
+      "name": "var_vRAHost"
+    },
+    {
+      "value": {
+        "string": {
+          "value": "id"
+        }
+      },
+      "type": "string",
+      "name": "var_PipelineID"
+    }
+  ],
+  "workflow-item": [
+    {
+      "in-binding": {},
+      "out-binding": {},
+      "position": {
+        "y": 65,
+        "x": 570
+      },
+      "name": "item0",
+      "type": "end",
+      "end-mode": "0",
+      "comparator": 0
+    },
+    {
+      "in-binding": {},
+      "out-binding": {},
+      "position": {
+        "y": 10,
+        "x": 440
+      },
+      "name": "item3",
+      "type": "end",
+      "end-mode": "0",
+      "comparator": 0
+    },
+    {
+      "display-name": "Check - Received VRA Host?",
+      "script": {
+        "value":
+          "
+          if(!var_vRAHost){
+              return false;
+          };
+          
+          return true;
+          ",
+        "encoded": false
+      },
+      "in-binding": {
+        "bind": [
+          {
+            "name": "var_vRAHost",
+            "type": "VRA:Host",
+            "export-name": "var_vRAHost"
+          }
+        ]
+      },
+      "out-binding": {},
+      "description": "",
+      "position": {
+        "y": 65,
+        "x": 270
+      },
+      "name": "item4",
+      "out-name": "item6",
+      "alt-out-name": "item3",
+      "type": "custom-condition",
+      "comparator": 0
+    },
+    {
+      "display-name": "Return VRA Host",
+      "script": {
+        "value": "",
+        "encoded": false
+      },
+      "in-binding": {},
+      "out-binding": {
+        "bind": [
+          {
+            "name": "out_vrahost",
+            "type": "VRA:Host",
+            "export-name": "var_vRAHost"
+          }
+        ]
+      },
+      "description": "",
+      "position": {
+        "y": 75,
+        "x": 140
+      },
+      "name": "item5",
+      "out-name": "item4",
+      "type": "link",
+      "linked-workflow-id": "id",
+      "comparator": 0
+    },
+    {
+      "display-name": "API Rest Call GET - Get Pipeline Execution",
+      "script": {
+        "value": 
+          "
+          /*
+          .SYNOPSIS
+              Makes a simple REST API call to the pipelines system to retrieve a Pipeline Execution.
+          .DESCRIPTION
+              Makes a simple REST API call to the pipelines system to retrieve a Pipeline Execution.
+          .AUTHOR
+          Anders Mikkelsen (github.com/amikkelsendk) og Sølve Holm
+          .CREATION DATE
+              25-09-29
+              */
+              
+              Create pipeline payload/input
+              
+              //var payload2 = '{ \\
+                  \"comments\": \"Executed via API\", \\
+                  \"input\": {} \\
+              //}'
+              
+              REST: execute pipeline
+              try {
+                  var restClient = var_vRAHost.createRestClient();
+                  var request = restClient.createRequest( \"GET\", \"/codestream/api/executions/\" + in_pipelineExecutionID + \"?queryParams=expand%3DPIPELINE_STAGE_TASK\" );
+                  var response = restClient.execute( request );
+              
+                  System.log(\"******Rest Response***** \");
+                  var statusCode = response.statusCode;
+                  System.log( \"Status code: \" + statusCode );
+                  System.log( \"Response: \" + response.contentAsString );
+              
+                  var responsejson = JSON.parse(response.contentAsString);
+                  System.log(responsejson);
+                  out_responseOutGetPipelineExecution = responsejson;
+              
+                  if ( response.statusCode==202 ) {
+                      System.log( \"Request accepted\" );
+                      System.log( \"Follow/view pipeline execution status in vRA\" );
+                  }
+              }
+              catch ( err ) {
+                  System.log ( \"***** Failed to run request *****\" );
+                  System.error( err );
+              }
+              ",
+        "encoded": false
+      },
+      "in-binding": {
+        "bind": [
+          {
+            "name": "var_vRAHost",
+            "type": "VRA:Host",
+            "export-name": "var_vRAHost"
+          },
+          {
+            "name": "var_PipelineID",
+            "type": "string",
+            "export-name": "var_PipelineID"
+          },
+          {
+            "name": "in_pipelineExecutionID",
+            "type": "string",
+            "export-name": "in_pipelineExecutionID"
+          }
+        ]
+      },
+      "out-binding": {
+        "bind": [
+          {
+            "name": "out_responseOutGetPipelineExecution",
+            "type": "Properties",
+            "export-name": "out_responseOutGetPipelineExecution"
+          }
+        ]
+      },
+      "description": "",
+      "position": {
+        "y": 75,
+        "x": 400
+      },
+      "name": "item6",
+      "out-name": "item0",
+      "type": "task",
+      "comparator": 0
+    }
+  ],
+  "root-name": "item5",
+  "object-name": "workflow:name=generic",
+  "id": "id",
+  "version": "0.0.1",
+  "api-version": "0.0.0",
+  "allowed-operations": "vef",
+  "restartMode": 1,
+  "resumeFromFailedMode": 0,
+  "editor-version": "2.0"
+}

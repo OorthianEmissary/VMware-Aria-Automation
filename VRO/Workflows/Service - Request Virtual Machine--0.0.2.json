@@ -1,0 +1,1405 @@
+{
+    "allowed-operations": "vef",
+    "api-version": "0.0.0",
+    "attrib": [
+        {
+            "name": "var_domain",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": "domain.domain"
+                }
+            }
+        },
+        {
+            "name": "var_vmName",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_notificationStatusCode",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_notificationText",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": "Test Text"
+                }
+            }
+        },
+        {
+            "name": "var_notificationTitle",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": "Test Title"
+                }
+            }
+        },
+        {
+            "name": "var_IP",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_statusCode_RequestIPAMIPEntry",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_responseJSONRequestIPAMIPEntry",
+            "type": "Properties",
+            "value": {
+                "properties": {
+                    "property": []
+                }
+            }
+        },
+        {
+            "name": "var_config",
+            "type": "ConfigurationElement",
+            "value": {
+                "sdk-object": {
+                    "href": "https://domain.net:443/vco/api/catalog/System/ConfigurationElement/id/",
+                    "id": "id",
+                    "type": "ConfigurationElement"
+                }
+            }
+        },
+        {
+            "name": "var_ouFolderNameWithPath",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_ouExistStatus",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_statusCode_CheckOrganizationalUnitNameexistsinAD",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_ouDescription",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_statusCode_CreateADObject",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_statusCode_CreateITSMRequest",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_itsmTicketNo",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_ITSM_journalNoteText_success",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_statusCode_CreateITSMJournalNoteToFirewall",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_ITSM_JournalNoteText_DeploymentFailed",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_statusCode_CreateITSMJournalNoteDeploymentFailed",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": "200"
+                }
+            }
+        },
+        {
+            "name": "var_sleepTimerPostDeployment",
+            "type": "number",
+            "value": {
+                "number": {
+                    "value": 240.0
+                }
+            }
+        },
+        {
+            "name": "var_statusCode_CreateOrganizationalUnit",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_ticketDescriptionInputArray",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_statusCode_CreateITSMJournalNote",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_status_CheckOUFolderNameInvCenter",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "err_var_exceptionPreProcessing",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": "TODO"
+                }
+            }
+        },
+        {
+            "name": "var_skipNo",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": "no"
+                }
+            }
+        },
+        {
+            "name": "var_skipYes",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": "yes"
+                }
+            }
+        },
+        {
+            "name": "var_workflowName_ExecuteAssemblerBlueprint",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_executionId_ExecuteAssemblerBlueprint",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_requestTrackerId_ExecuteAssemblerBlueprint",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_vmNameWithDomain",
+            "type": "string",
+            "value": {
+                "string": {
+                    "value": ""
+                }
+            }
+        },
+        {
+            "name": "var_sleepTimersshUpdate",
+            "type": "number",
+            "value": {
+                "number": {
+                    "value": 900.0
+                }
+            }
+        }
+    ],
+    "display-name": "Service - Request Virtual Machine",
+    "editor-version": "2.0",
+    "id": "id",
+    "input": {
+        "param": [
+            {
+                "name": "in_financialinfo2",
+                "type": "string"
+            },
+            {
+                "name": "in_financialManager",
+                "type": "string"
+            },
+            {
+                "name": "in_firewallRules",
+                "type": "Array/CompositeType(Source:string,Destination:string,Port:string):FirewallRules"
+            },
+            {
+                "name": "in_flavour",
+                "type": "string"
+            },
+            {
+                "name": "in_manager",
+                "type": "string"
+            },
+            {
+                "name": "in_ouFolderName",
+                "type": "string"
+            },
+            {
+                "name": "in_financialinfo1",
+                "type": "string"
+            },
+            {
+                "name": "in_Owner",
+                "type": "string"
+            },
+            {
+                "name": "in_vmName",
+                "type": "string"
+            },
+            {
+                "name": "in_description",
+                "type": "string"
+            },
+            {
+                "description": "reason for VM deployment",
+                "name": "in_reason",
+                "type": "string"
+            },
+            {
+                "name": "in_os",
+                "type": "string"
+            }
+        ]
+    },
+    "object-name": "workflow:name=generic",
+    "output": {},
+    "position": {
+        "x": 50.0,
+        "y": 65.0
+    },
+    "restartMode": 1,
+    "resumeFromFailedMode": 0,
+    "root-name": "item26",
+    "version": "0.0.2",
+    "workflow-item": [
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item0",
+            "out-binding": {},
+            "position": {
+                "x": 2130.0,
+                "y": 65.0
+            },
+            "type": "end"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Validate inputs and variables",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "in_financialinfo2",
+                        "name": "in_financialinfo2",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_financialinfo1",
+                        "name": "in_financialinfo1",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_financialManager",
+                        "name": "in_financialManager",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_firewallRules",
+                        "name": "in_firewallRules",
+                        "type": "Array/CompositeType(Source:string,Destination:string,Port:string):FirewallRules"
+                    },
+                    {
+                        "export-name": "in_flavour",
+                        "name": "in_flavour",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_manager",
+                        "name": "in_manager",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_ouFolderName",
+                        "name": "in_ouFolderName",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_Owner",
+                        "name": "in_Owner",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_vmName",
+                        "name": "in_vmName",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_domain",
+                        "name": "var_domain",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_os",
+                        "name": "in_os",
+                        "type": "string"
+                    }
+                ]
+            },
+            "name": "item1",
+            "out-binding": {},
+            "out-name": "item12",
+            "position": {
+                "x": 270.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    if(
+                        var_domain == \"\" ||
+                        in_financialinfo2 == \"\" ||
+                        in_financialinfo1 == \"\" ||
+                        in_financialManager == \"\" ||
+                        in_firewallRules == \"\" ||
+                        in_flavour == \"\" ||
+                        in_manager == \"\" ||
+                        in_ouFolderName == \"\" ||
+                        in_os == \"\" ||
+                        in_Owner == \"\"){
+                            throw Error(\"Input validation failed.Please fill out all required fields.\");
+                    };
+                    "
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Return VM Name",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "in_vmName",
+                        "name": "in_vmName",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_skipNo",
+                        "name": "in_skip",
+                        "type": "string"
+                    }
+                ]
+            },
+            "linked-workflow-id": "id",
+            "name": "item12",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_vmName",
+                        "name": "out_vmName",
+                        "type": "string"
+                    }
+                ]
+            },
+            "out-name": "item55",
+            "position": {
+                "x": 400.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": ""
+            },
+            "type": "link"
+        },
+        {
+            "alt-out-name": "item45",
+            "comparator": 0,
+            "description": "",
+            "display-name": "Succesful deployment? (WIP)",
+            "in-binding": {},
+            "name": "item23",
+            "out-binding": {},
+            "out-name": "item44",
+            "position": {
+                "x": 1830.0,
+                "y": 65.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    // If the deployment fails, go to false.
+
+                    return true;
+                    "
+            },
+            "type": "custom-condition"
+        },
+        {
+            "comparator": 0,
+            "condition": [
+                {
+                    "comparator": "0",
+                    "label": "item56",
+                    "name": "in_os",
+                    "type": "string",
+                    "value": "Ubuntu"
+                },
+                {
+                    "comparator": "0",
+                    "label": "item30",
+                    "name": "in_os",
+                    "type": "string",
+                    "value": "Windows"
+                },
+                {
+                    "comparator": "6",
+                    "label": "item54",
+                    "name": "",
+                    "type": "boolean",
+                    "value": ""
+                }
+            ],
+            "description": "Basic switch activity based on a workflow attribute or parameter.",
+            "display-name": "OS Switch",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "in_os",
+                        "name": "in_os",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_os",
+                        "name": "in_os",
+                        "type": "string"
+                    }
+                ]
+            },
+            "name": "item25",
+            "out-binding": {},
+            "position": {
+                "x": 1310.0,
+                "y": 20.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    // Generated by the system, cannot be edited
+                    if (in_os === \"Ubuntu\") {
+                    return \"item56\";
+                    } else if (in_os === \"Windows\") {
+                    return \"item30\";
+                    } else if (true) {
+                    return \"item54\";
+                    }
+                    "
+            },
+            "type": "switch"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "config item and variables",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_config",
+                        "name": "var_config",
+                        "type": "ConfigurationElement"
+                    },
+                    {
+                        "export-name": "in_ouFolderName",
+                        "name": "in_ouFolderName",
+                        "type": "string"
+                    }
+                ]
+            },
+            "name": "item26",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_domain",
+                        "name": "var_domain",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_ouFolderNameWithPath",
+                        "name": "var_ouFolderNameWithPath",
+                        "type": "string"
+                    }
+                ]
+            },
+            "out-name": "item1",
+            "position": {
+                "x": 140.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    try {
+                        var_domain = var_config.getAttributeWithKey(\"key\").value;
+                        var_ouFolderNameWithPath = \"folder/\" + in_ouFolderName;
+                    } catch (err) {
+                        throw new Error(\"Failed to retrieve values from configItem.\"); 
+                    }
+                    "
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Component - Execute Assembler Blueprint - Ubuntu",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "in_reason",
+                        "name": "in_reason",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_description",
+                        "name": "in_description",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_vmName",
+                        "name": "in_vmName",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_flavour",
+                        "name": "in_flavour",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_os",
+                        "name": "in_os",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_ouFolderNameWithPath",
+                        "name": "in_ouFolderName",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_manager",
+                        "name": "in_manager",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_Owner",
+                        "name": "in_Owner",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_financialManager",
+                        "name": "in_financialManager",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_financialinfo1",
+                        "name": "in_financialinfo1",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_financialinfo2",
+                        "name": "in_financialinfo2",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_domain",
+                        "name": "in_domain",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_IP",
+                        "name": "in_IP",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_itsmTicketNo",
+                        "name": "in_ticketNr",
+                        "type": "string"
+                    },
+                    {
+                        "description": "set to yes, if you want to skip this workflow.",
+                        "export-name": "var_skipNo",
+                        "name": "in_skip",
+                        "type": "string"
+                    }
+                ]
+            },
+            "linked-workflow-id": "id",
+            "name": "item27",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_workflowName_ExecuteAssemblerBlueprint",
+                        "name": "out_workflowName",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_executionId_ExecuteAssemblerBlueprint",
+                        "name": "out_executionId",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_requestTrackerId_ExecuteAssemblerBlueprint",
+                        "name": "out_requestTrackerId",
+                        "type": "string"
+                    }
+                ]
+            },
+            "out-name": "item29",
+            "position": {
+                "x": 920.0,
+                "y": 20.0
+            },
+            "script": {
+                "encoded": false,
+                "value": ""
+            },
+            "type": "link"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "NOTE: ABX - MAC Address assigned to IPAM IP Entry",
+            "in-binding": {},
+            "name": "item29",
+            "out-binding": {},
+            "out-name": "item47",
+            "position": {
+                "x": 1050.0,
+                "y": 20.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    // This is just a note that this runs here.
+                    // See ABXSUB_updateIpamMac in the assembler
+                    "
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "(WIP)",
+            "in-binding": {},
+            "name": "item30",
+            "out-binding": {},
+            "out-name": "item54",
+            "position": {
+                "x": 1570.0,
+                "y": 20.0
+            },
+            "script": {
+                "encoded": false,
+                "value": "// PLACEHOLDER"
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Create ITSM Journal Note",
+            "in-binding": {
+                "bind": [
+                    {
+                        "description": "ITSM Ticket number",
+                        "export-name": "var_itsmTicketNo",
+                        "name": "ticketID",
+                        "type": "string"
+                    },
+                    {
+                        "description": "Journal Note text. NOTE: MUST NOT BE HTML,  ONLY TEXT.",
+                        "export-name": "var_ITSM_journalNoteText_success",
+                        "name": "journalNoteText",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_skipYes",
+                        "name": "in_skip",
+                        "type": "string"
+                    }
+                ]
+            },
+            "linked-workflow-id": "id",
+            "name": "item44",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_statusCode_CreateITSMJournalNoteToFirewall",
+                        "name": "statusCode",
+                        "type": "string"
+                    }
+                ]
+            },
+            "out-name": "item0",
+            "position": {
+                "x": 1960.0,
+                "y": 20.0
+            },
+            "script": {
+                "encoded": false,
+                "value": ""
+            },
+            "type": "link"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Create ITSM Journal Note - FAILED",
+            "in-binding": {
+                "bind": [
+                    {
+                        "description": "ITSM Ticket number",
+                        "export-name": "var_itsmTicketNo",
+                        "name": "ticketID",
+                        "type": "string"
+                    },
+                    {
+                        "description": "Journal Note text. NOTE: MUST NOT BE HTML,  ONLY TEXT.",
+                        "export-name": "var_ITSM_JournalNoteText_DeploymentFailed",
+                        "name": "journalNoteText",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_skipYes",
+                        "name": "in_skip",
+                        "type": "string"
+                    }
+                ]
+            },
+            "linked-workflow-id": "id",
+            "name": "item45",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_statusCode_CreateITSMJournalNoteDeploymentFailed",
+                        "name": "statusCode",
+                        "type": "string"
+                    }
+                ]
+            },
+            "out-name": "item0",
+            "position": {
+                "x": 1960.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": ""
+            },
+            "type": "link"
+        },
+        {
+            "comparator": 0,
+            "content-mode": "x",
+            "description": "Sleep a given number of seconds.",
+            "display-name": "Sleep timer",
+            "in-binding": {
+                "bind": [
+                    {
+                        "description": "Time to sleep in seconds",
+                        "export-name": "var_sleepTimerPostDeployment",
+                        "name": "sleepTime",
+                        "type": "number"
+                    }
+                ]
+            },
+            "name": "item47",
+            "out-binding": {},
+            "out-name": "item25",
+            "position": {
+                "x": 1180.0,
+                "y": 20.0
+            },
+            "prototype-id": "sleep",
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    //Auto-generated script
+                    if ( sleepTime !== null )  {
+                    \tSystem.sleep(sleepTime * 1000);
+                    }else  {
+                    \tthrow \"'sleepTime' is NULL\"; 
+                    }
+                    "
+            },
+            "type": "task"
+        },
+        {
+            "catch-name": "item52",
+            "comparator": 0,
+            "display-name": "Pre-processing Parallelized workflows - IP, OU, AD Object, ITSM",
+            "in-binding": {},
+            "name": "item49",
+            "out-binding": {},
+            "out-name": "item27",
+            "position": {
+                "x": 790.0,
+                "y": 75.0
+            },
+            "script": {
+                "value": ""
+            },
+            "throw-bind-name": "err_var_exceptionPreProcessing",
+            "type": "multiple",
+            "workflow-subelements-list": {
+                "workflow-subelement": [
+                    {
+                        "display-name": "Wrapper - OU Check and Create, AD Create - Request Virtual Machine",
+                        "in-binding": {
+                            "bind": [
+                                {
+                                    "export-name": "in_ouFolderName",
+                                    "name": "in_organizationalUnit",
+                                    "type": "string"
+                                },
+                                {
+                                    "export-name": "in_description",
+                                    "name": "in_description",
+                                    "type": "string"
+                                },
+                                {
+                                    "export-name": "in_manager",
+                                    "name": "in_managers",
+                                    "type": "string"
+                                },
+                                {
+                                    "export-name": "in_manager",
+                                    "name": "in_owner",
+                                    "type": "string"
+                                },
+                                {
+                                    "export-name": "var_vmName",
+                                    "name": "in_vmName",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "linked-workflow-id": "id",
+                        "name": "item0",
+                        "out-binding": {
+                            "bind": [
+                                {
+                                    "export-name": "out_statusCode_CheckOrganizationalUnitNameexistsinAD",
+                                    "name": "out_statusCode_CheckOrganizationalUnitNameexistsinAD",
+                                    "type": "string"
+                                },
+                                {
+                                    "export-name": "var_statusCode_CreateOrganizationalUnit",
+                                    "name": "out_statusCode_CreateOrganizationalUnit",
+                                    "type": "string"
+                                },
+                                {
+                                    "export-name": "var_statusCode_CreateADObject",
+                                    "name": "out_statusCode_CreateADObject",
+                                    "type": "string"
+                                },
+                                {
+                                    "export-name": "var_status_CheckOUFolderNameInvCenter",
+                                    "name": "out_status_CheckOUFolderNameInvCenter",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "display-name": "Wrapper - ITSM Request and journal note - Request Virtual Machine",
+                        "in-binding": {
+                            "bind": [
+                                {
+                                    "export-name": "in_firewallRules",
+                                    "name": "in_firewallrules",
+                                    "type": "Array/CompositeType(Source:string,Destination:string,Port:string):FirewallRules"
+                                },
+                                {
+                                    "export-name": "var_vmName",
+                                    "name": "in_vmName",
+                                    "type": "string"
+                                },
+                                {
+                                    "export-name": "in_os",
+                                    "name": "in_os",
+                                    "type": "string"
+                                },
+                                {
+                                    "export-name": "in_flavour",
+                                    "name": "in_flavour",
+                                    "type": "string"
+                                },
+                                {
+                                    "export-name": "in_ouFolderName",
+                                    "name": "in_ouFolderName",
+                                    "type": "string"
+                                },
+                                {
+                                    "export-name": "in_manager",
+                                    "name": "in_employeeId",
+                                    "type": "string"
+                                },
+                                {
+                                    "export-name": "var_skipYes",
+                                    "name": "in_skip",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "linked-workflow-id": "id",
+                        "name": "item1",
+                        "out-binding": {
+                            "bind": [
+                                {
+                                    "export-name": "var_statusCode_CreateITSMRequest",
+                                    "name": "out_statusCode_CreateITSMRequest",
+                                    "type": "string"
+                                },
+                                {
+                                    "export-name": "var_itsmTicketNo",
+                                    "name": "out_itsmTicketNo",
+                                    "type": "string"
+                                },
+                                {
+                                    "export-name": "out_statusCode_CreateITSMJournalNote",
+                                    "name": "out_statusCode_CreateITSMJournalNote",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "display-name": "Component - Request IPAM IP Entry",
+                        "in-binding": {
+                            "bind": [
+                                {
+                                    "export-name": "var_vmNameWithDomain",
+                                    "name": "in_hostname",
+                                    "type": "string"
+                                },
+                                {
+                                    "export-name": "var_skipNo",
+                                    "name": "in_skip",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "linked-workflow-id": "id",
+                        "name": "item2",
+                        "out-binding": {
+                            "bind": [
+                                {
+                                    "export-name": "var_IP",
+                                    "name": "out_IP",
+                                    "type": "string"
+                                },
+                                {
+                                    "export-name": "var_statusCode_RequestIPAMIPEntry",
+                                    "name": "out_statusCode",
+                                    "type": "string"
+                                },
+                                {
+                                    "export-name": "var_responseJSONRequestIPAMIPEntry",
+                                    "name": "out_responseJSON",
+                                    "type": "Properties"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Wrapper - Check VM Name in Endpoints - Request Virtual Machine",
+            "in-binding": {
+                "bind": [
+                    {
+                        "description": "Set to yes to fully skip workflow. ",
+                        "export-name": "var_skipNo",
+                        "name": "in_skip",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_vmName",
+                        "name": "in_vmName",
+                        "type": "string"
+                    }
+                ]
+            },
+            "linked-workflow-id": "id",
+            "name": "item50",
+            "out-binding": {},
+            "out-name": "item49",
+            "position": {
+                "x": 660.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": ""
+            },
+            "type": "link"
+        },
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item51",
+            "out-binding": {},
+            "position": {
+                "x": 1090.0,
+                "y": 65.0
+            },
+            "type": "end"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Flowback (WIP)",
+            "in-binding": {},
+            "name": "item52",
+            "out-binding": {},
+            "out-name": "item51",
+            "position": {
+                "x": 920.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    // WIP
+
+                    System.log(\"FLOW BACK\");
+                    "
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "Start an asynchronous workflow.",
+            "display-name": "Wrapper - VM Deployment Notification - Request Virtual Machine",
+            "in-binding": {
+                "bind": [
+                    {
+                        "description": "Set to yes to fully skip workflow. ",
+                        "export-name": "var_skipNo",
+                        "name": "in_skip",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_vmNameWithDomain",
+                        "name": "in_vmName",
+                        "type": "string"
+                    },
+                    {
+                        "description": "Was the virtual machine deployment successful?",
+                        "export-name": "",
+                        "name": "in_vmDeploymentSuccesful",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_ouFolderName",
+                        "name": "in_ouFolderName",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_itsmTicketNo",
+                        "name": "in_itsmTicketNumber",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_os",
+                        "name": "in_os",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "in_flavour",
+                        "name": "in_flavour",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_itsmTicketNo",
+                        "name": "in_itsmTicketNo",
+                        "type": "string"
+                    }
+                ]
+            },
+            "launched-workflow-id": "id",
+            "name": "item54",
+            "out-binding": {
+                "bind": [
+                    {
+                        "name": "wfToken",
+                        "type": "WorkflowToken"
+                    }
+                ]
+            },
+            "out-name": "item23",
+            "position": {
+                "x": 1700.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    var workflowToLaunch = Server.getWorkflowWithId(\"id\");
+                    if (workflowToLaunch == null) {
+                    \tthrow \"Workflow not found\";
+                    }
+
+                    var workflowParameters = new Properties();
+                    workflowParameters.put(\"in_skip\",in_skip);
+                    workflowParameters.put(\"in_vmName\",in_vmName);
+                    workflowParameters.put(\"in_vmDeploymentSuccesful\",in_vmDeploymentSuccesful);
+                    workflowParameters.put(\"in_ouFolderName\",in_ouFolderName);
+                    workflowParameters.put(\"in_itsmTicketNumber\",in_itsmTicketNumber);
+                    workflowParameters.put(\"in_os\",in_os);
+                    workflowParameters.put(\"in_flavour\",in_flavour);
+                    workflowParameters.put(\"in_itsmTicketNo\",in_itsmTicketNo);
+                    wfToken = workflowToLaunch.execute(workflowParameters);
+                    "
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Concatenate vm name and domain",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_domain",
+                        "name": "var_domain",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_vmName",
+                        "name": "var_vmName",
+                        "type": "string"
+                    }
+                ]
+            },
+            "name": "item55",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_vmNameWithDomain",
+                        "name": "var_vmNameWithDomain",
+                        "type": "string"
+                    }
+                ]
+            },
+            "out-name": "item50",
+            "position": {
+                "x": 530.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": "var_vmNameWithDomain = var_vmName + \".\" + var_domain;"
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Wrapper - SSH Checker, maker and overwriter - Request Virtual Machine",
+            "in-binding": {
+                "bind": [
+                    {
+                        "description": "Set to yes to fully skip workflow. ",
+                        "export-name": "var_skipNo",
+                        "name": "in_skip",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_IP",
+                        "name": "in_endpoint",
+                        "type": "string"
+                    },
+                    {
+                        "description": "OU of the VM, which this workflow will make an SSH for",
+                        "export-name": "in_ouFolderName",
+                        "name": "in_organizationalunit",
+                        "type": "string"
+                    },
+                    {
+                        "description": "Manager/manager of VM, which this workflow will make an SSH for",
+                        "export-name": "in_manager",
+                        "name": "in_manager",
+                        "type": "string"
+                    },
+                    {
+                        "export-name": "var_vmNameWithDomain",
+                        "name": "in_vmname",
+                        "type": "string"
+                    }
+                ]
+            },
+            "linked-workflow-id": "id",
+            "name": "item56",
+            "out-binding": {},
+            "out-name": "item57",
+            "position": {
+                "x": 1440.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": ""
+            },
+            "type": "link"
+        },
+        {
+            "comparator": 0,
+            "content-mode": "x",
+            "description": "Sleep a given number of seconds.",
+            "display-name": "SSH Update sleep timer",
+            "in-binding": {
+                "bind": [
+                    {
+                        "description": "Time to sleep in seconds",
+                        "export-name": "var_sleepTimersshUpdate",
+                        "name": "sleepTime",
+                        "type": "number"
+                    }
+                ]
+            },
+            "name": "item57",
+            "out-binding": {},
+            "out-name": "item54",
+            "position": {
+                "x": 1570.0,
+                "y": 75.0
+            },
+            "prototype-id": "sleep",
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    //Auto-generated script
+                    if ( sleepTime !== null )  {
+                    \tSystem.sleep(sleepTime * 1000);
+                    }else  {
+                    \tthrow \"'sleepTime' is NULL\"; 
+                    }
+                    "
+            },
+            "type": "task"
+        }
+    ]
+}

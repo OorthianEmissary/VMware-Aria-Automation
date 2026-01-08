@@ -1,0 +1,211 @@
+formatVersion: 1
+version: 0.0.0
+name: vSphereVirtualMachine
+#-------------------------------------------------------#
+# Input
+#-------------------------------------------------------#
+inputs:
+  vmName:
+    type: string
+    title: VM Name
+    description: |
+      Name of vm.
+    maxLength: null
+    default: ''
+  flavour:
+    type: string
+    title: VM Size
+    comment: null
+    description: |
+      Choose VM size.
+    default: 2-4
+    enum:
+      - 2-4
+      - 4-8
+      - 4-16
+      - 8-16
+  os:
+    type: string
+    title: OS
+    description: |
+      What OS should the VM have? <br>
+      Ubuntu or Windows?
+    default: Ubuntu
+    enum:
+      - Ubuntu
+      - Windows
+  ouFolderName:
+    type: string
+    title: Organisational Unit (OU)
+    description: Input the name of Organisational Unit (OU) for the virtual machine.
+    readOnly: true
+    default: Company/TestLab
+  manager:
+    type: string
+    title: Manager
+    description: |
+      Input name of the manager.
+    readOnly: false
+    default: Person123
+  systemOwner:
+    type: string
+    title: Owner
+    description: |
+      Input name of the owner. <br>
+      The system owner is the main responsible person for the system.
+    readOnly: false
+    default: Person456
+  financialManager:
+    type: string
+    title: Financial Manager
+    description: |
+      Input name of the person responsible for the economy for the VM.
+    readOnly: false
+    default: Person789
+  paymentInfo1:
+    type: number
+    title: paymentInfo1
+    description: |
+      Input the paymentInfo1 for the server.
+    default: 1111111
+    minimum: 0
+  paymentInfo2:
+    type: number
+    title: paymentInfo2
+    description: |
+      Input the paymentInfo2 for the server.
+    default: 2222222
+    minimum: 0
+  domain:
+    type: string
+    title: Domain
+    description: What domain the virtual machine should be in?
+    readOnly: true
+    default: domain.net
+    enum:
+      - domain.net
+  IP:
+    type: string
+    title: IP
+    readOnly: false
+    default: 10.10.10.10
+  TicketNr:
+    type: string
+    title: TicketNr
+    default: '0'
+#-------------------------------------------------------#
+# RESOURCES
+#-------------------------------------------------------#
+resources:
+  Cloud_vSphere_Machine_1:
+    type: Cloud.vSphere.Machine
+    metadata:
+      layoutPosition:
+        - 0
+        - 1
+    properties:
+      folderName: ${input.ouFolderName}
+      image: ${input.os}
+      flavor: ${input.flavour}
+      storage:
+        bootDiskCapacityInGB: 60
+      #-------------------------------------------------------#
+      # VM Networking
+      #-------------------------------------------------------#
+      networks:
+        - network: ${resource.vSphere_Network.id}
+      #-------------------------------------------------------#
+      # VM Tags
+      #-------------------------------------------------------#
+      tags:
+        - key: Deployed
+          value: Automation
+        - key: Backup Management (IBM Spectrum Protect)
+          value: Included
+        - key: Manager
+          value: ${input.manager}
+        - key: Owner
+          value: ${input.systemOwner}
+        - key: financialManager
+          value: ${input.financialManager}
+        - key: paymentInfo1
+          value: ${input.paymentInfo1}
+        - key: paymentInfo2
+          value: ${input.paymentInfo2}
+        - key: TicketNr
+          value: ${input.TicketNr}
+        - key: Billingtype
+          value: 1
+      #-------------------------------------------------------#
+      # VM Specific Attributes
+      #-------------------------------------------------------#
+      customRenameVM: 'yes'
+      #-------------------------------------------------------#
+      # CUSTOM PROPERTIES
+      #-------------------------------------------------------#
+      customHostName: ${input.vmName}.${input.domain}
+      customFlavour: ${input.flavour}
+      customOS: ${input.os}
+      customOUFolderName: ${input.ouFolderName}
+      customOU: ${split(input.ouFolderName, "/")[-1]}
+      manager: ${input.manager}
+      customOwner: ${input.systemOwner}
+      customFinancialManager: ${input.financialManager}
+      customPaymentinfo1: ${input.paymentInfo1}
+      customPaymentInfo2: ${input.paymentInfo2}
+      customDomain: ${input.domain}
+      customIP: ${input.IP}
+      customItsmTicketNr: ${input.TicketNr}
+      customRequestedBy: ${env.requestedBy}
+      customRequestedAt: ${env.requestedAt}
+      #-------------------------------------------------------#
+      # CloudInit
+      #-------------------------------------------------------#
+      cloudConfigSettings:
+        deploymentFailOnCloudConfigRuntimeError: true
+      cloudConfig: |
+        #cloud-config
+          package_upgrade: true
+          timezone: England
+          ssh_pwauth: true
+          hostname: ${input.vmName}
+          create_hostname_file: true
+          fqdn: ${self.customHostName}
+          prefer_fqdn_over_hostname: true
+          users: 
+            - name: ${secret.admin1}
+              groups: adm, cdrom, dip, plugdev, lxd, sudo
+              shell: /bin/bash
+          chpasswd:
+            expire: false
+            users:
+              - {name: ${secret.admin1}, password: ${secret.admin1Password}, type: text}
+          write_files:
+          - path: /var/scripts/variables.sh
+            owner: root:root
+            permissions: '0750'
+            content: |
+              #!/usr/bin/env bash
+              var1
+              var2
+              var3
+          runcmd:
+            - cd /var/scripts/
+            - wget "FQDN.Net" -P /var/scripts/
+            - chmod 750 file.sh
+            - /bin/bash file.sh
+            - touch /etc/cloud/cloud-init.disabled
+            - sudo systemd-run -p After=cloud-final.service -p Type=oneshot --no-block bash -c 'apt-get purge -y cloud-init && rm -rf /var/lib/cloud && reboot'
+  #-------------------------------------------------------#
+  # Network
+  #-------------------------------------------------------#
+  vSphere_Network:
+    type: Cloud.vSphere.Network
+    metadata:
+      layoutPosition:
+        - 1
+        - 0
+    properties:
+      networkType: existing
+      constraints:
+        - tag: PROD:NETWORK

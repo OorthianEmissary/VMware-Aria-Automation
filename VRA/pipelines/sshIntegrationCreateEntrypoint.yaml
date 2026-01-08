@@ -1,0 +1,67 @@
+---
+project: projectId
+kind: PIPELINE
+name: SSHIntegrationCreateEntrypoint
+icon: organization,left, is-teal
+enabled: true
+global: false
+description: Send POST API request to SSH integration to make entrypoint for a VM
+concurrency: 10
+input:
+  endpoint: ''
+  manager: ''
+  organizationalunit: ''
+_inputMeta:
+  endpoint:
+    description: DNS of the VM
+    mandatory: true
+  manager:
+    description: managerof the VM
+    mandatory: true
+  organizationalunit:
+    description: OU of the VM
+    mandatory: true
+workspace:
+  type: DOCKER
+  endpoint: ''
+  image: ''
+  registry: ''
+  path: ''
+  autoCloneForTrigger: false
+  limits:
+    cpu: 1.0
+    memory: 512
+stageOrder:
+- SSHIntegrationCreateEntryPoint
+stages:
+  SSHIntegrationCreateEntryPoint:
+    taskOrder:
+    - OrchestratorWorkflow
+    - ValidateReturn
+    tasks:
+      OrchestratorWorkflow:
+        type: vRO
+        endpoints:
+          vroServer: Embedded-VRO-Pipelines
+        input:
+          workflowName: New-SSHIntegrationEntrypoint
+          workflowID: workflowID1
+          parameters:
+            input1: ${input.input1}
+            input2: ${input.input2}
+            input3: ${input.input3}
+      ValidateReturn:
+        type: Condition
+        input:
+          condition: ${SSHIntegrationCreateEntryPoint.OrchestratorWorkflow.status} == "COMPLETED"
+---
+project: project2
+kind: ENDPOINT
+name: Embedded-VRO-Pipelines
+description: ''
+type: vro
+properties:
+  url: https://url.net/vco
+  authType: token
+  privateToken: ${var.APIToken}
+  fingerprint: fingerprint1

@@ -1,0 +1,318 @@
+{
+    "allowed-operations": "vef",
+    "api-version": "0.0.0",
+    "attrib": [
+        {
+            "name": "var_vmNumber",
+            "type": "number"
+        },
+        {
+            "name": "var_retryCounter",
+            "type": "number",
+            "value": {
+                "number": {
+                    "value": 0.0
+                }
+            }
+        },
+        {
+            "name": "var_retryMax",
+            "type": "number",
+            "value": {
+                "number": {
+                    "value": 20.0
+                }
+            }
+        }
+    ],
+    "description": "",
+    "display-name": "Example - Number Loop",
+    "editor-version": "2.0",
+    "id": "id",
+    "input": {
+        "param": [
+            {
+                "description": "Set to yes to fully skip workflow. ",
+                "name": "in_skip",
+                "type": "string"
+            },
+            {
+                "name": "in_vmNumber",
+                "type": "number"
+            }
+        ]
+    },
+    "object-name": "workflow:name=generic",
+    "output": {},
+    "position": {
+        "x": 50.0,
+        "y": 97.5
+    },
+    "restartMode": 1,
+    "resumeFromFailedMode": 0,
+    "root-name": "item3",
+    "version": "1.0.0",
+    "workflow-item": [
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item0",
+            "out-binding": {},
+            "position": {
+                "x": 830.0,
+                "y": 10.0
+            },
+            "type": "end"
+        },
+        {
+            "comparator": 0,
+            "end-mode": "0",
+            "in-binding": {},
+            "name": "item2",
+            "out-binding": {},
+            "position": {
+                "x": 310.0,
+                "y": 42.5
+            },
+            "type": "end"
+        },
+        {
+            "alt-out-name": "item2",
+            "comparator": 0,
+            "description": "",
+            "display-name": "Skip Full Workflow?",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "in_skip",
+                        "name": "in_skip",
+                        "type": "string"
+                    }
+                ]
+            },
+            "name": "item3",
+            "out-binding": {},
+            "out-name": "item4",
+            "position": {
+                "x": 140.0,
+                "y": 97.5
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    if(in_skip.toLowerCase() == \"yes\"){
+                    System.log(\"SKIPPED WORKFLOW: \" + workflow.name);
+                    return false;
+                    } 
+
+                    return true;
+                    "
+
+            },
+            "type": "custom-condition"
+        },
+        {
+            "business-status": "",
+            "comparator": 0,
+            "description": "",
+            "display-name": "Get ConfigurationItem Variables and set variables",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "in_vmNumber",
+                        "name": "in_vmNumber",
+                        "type": "number"
+                    }
+                ]
+            },
+            "name": "item4",
+            "out-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_vmNumber",
+                        "name": "var_vmNumber",
+                        "type": "number"
+                    }
+                ]
+            },
+            "out-name": "item8",
+            "position": {
+                "x": 270.0,
+                "y": 107.5
+            },
+            "script": {
+                "encoded": false,
+                "value": "var_vmNumber = in_vmNumber;"
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Scriptable task",
+            "in-binding": {},
+            "name": "item5",
+            "out-binding": {},
+            "out-name": "item7",
+            "position": {
+                "x": 530.0,
+                "y": 75.0
+            },
+            "script": {
+                "encoded": false,
+                "value": ""
+            },
+            "type": "task"
+        },
+        {
+            "alt-out-name": "item10",
+            "comparator": 0,
+            "description": "",
+            "display-name": "Decision",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_retryCounter",
+                        "name": "var_retryCounter",
+                        "type": "number"
+                    },
+                    {
+                        "export-name": "var_retryMax",
+                        "name": "var_retryMax",
+                        "type": "number"
+                    }
+                ]
+            },
+            "name": "item7",
+            "out-binding": {},
+            "out-name": "item0",
+            "position": {
+                "x": 660.0,
+                "y": 65.0
+            },
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    if(var_retryCounter == var_retryMax){
+                        return true;
+                    }
+                    return false;
+                    "
+            },
+            "type": "custom-condition"
+        },
+        {
+            "comparator": 0,
+            "description": "",
+            "display-name": "Write Number to screen",
+            "in-binding": {
+                "bind": [
+                    {
+                        "export-name": "var_vmNumber",
+                        "name": "var_vmNumber",
+                        "type": "number"
+                    }
+                ]
+            },
+            "name": "item8",
+            "out-binding": {},
+            "out-name": "item5",
+            "position": {
+                "x": 400.0,
+                "y": 107.5
+            },
+            "script": {
+                "encoded": false,
+                "value": "System.log(var_vmNumber);"
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "content-mode": "x",
+            "description": "Increment a counter by one.",
+            "display-name": "Increase vm number",
+            "in-binding": {
+                "bind": [
+                    {
+                        "description": "Item to increase",
+                        "export-name": "var_vmNumber",
+                        "name": "counter",
+                        "type": "number"
+                    }
+                ]
+            },
+            "name": "item9",
+            "out-binding": {
+                "bind": [
+                    {
+                        "description": "Increased item",
+                        "export-name": "var_vmNumber",
+                        "name": "counter",
+                        "type": "number"
+                    }
+                ]
+            },
+            "out-name": "item8",
+            "position": {
+                "x": 920.0,
+                "y": 107.5
+            },
+            "prototype-id": "increase-counter",
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    //Auto-generated script
+                    counter = counter + 1;
+                    "
+            },
+            "type": "task"
+        },
+        {
+            "comparator": 0,
+            "content-mode": "x",
+            "description": "Increment a counter by one.",
+            "display-name": "Increase counter",
+            "in-binding": {
+                "bind": [
+                    {
+                        "description": "Item to increase",
+                        "export-name": "var_retryCounter",
+                        "name": "counter",
+                        "type": "number"
+                    }
+                ]
+            },
+            "name": "item10",
+            "out-binding": {
+                "bind": [
+                    {
+                        "description": "Increased item",
+                        "export-name": "var_retryCounter",
+                        "name": "counter",
+                        "type": "number"
+                    }
+                ]
+            },
+            "out-name": "item9",
+            "position": {
+                "x": 790.0,
+                "y": 75.0
+            },
+            "prototype-id": "increase-counter",
+            "script": {
+                "encoded": false,
+                "value": 
+                    "
+                    //Auto-generated script
+                    counter = counter + 1;
+                    "
+            },
+            "type": "task"
+        }
+    ]
+}
